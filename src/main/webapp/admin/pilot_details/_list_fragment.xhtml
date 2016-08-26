@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <p:column width="30">
+        <f:facet name="header">
+            <h:outputText value="Nr"/>
+        </f:facet>
+        <h:outputText value="#{ind+1}"/>
+    </p:column>
+    <p:column headerText="Membru" filterBy="#{item.member.name}" 
+              sortBy="#{item.member.name}"
+              filterMatchMode="contains" >
+        <a href="#{facesContext.externalContext.requestContextPath}/faces/admin/member/view.xhtml?id=${item.member.id}">
+            <h:outputText value="#{item.member.name}" style="color: #34759F"/>
+        </a>
+    </p:column>
+    <p:column headerText="Nr zboruri" 
+              sortBy="#{item.numberOfFlights}"
+              filterMatchMode="contains" >
+        <h:outputText value="#{item.numberOfFlights}" style="font-weight: bold"/>
+    </p:column>
+    <p:column headerText="Total ore"
+              sortBy="#{item.totalTime}"
+              filterMatchMode="contains" >
+        <h:outputText value="#{item.durationInHoursAndMinutes}" style="font-weight: bold"/>
+    </p:column>
+    <p:column headerText="Total km (zb dist)"
+              sortBy="#{item.totalDistance}"
+              filterMatchMode="contains" >
+        <h:outputText value="#{item.totalDistance}" style="font-weight: bold"/>
+    </p:column>
+
+
+
+</html>
+

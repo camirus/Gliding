@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Lista tipuri membri</title>
+    </h:head>
+    <ui:composition template="../../template/common/commonLayout.xhtml">
+        <ui:define name="content">
+            <p:panel styleClass="noBorderPanel">
+                <div id="container" >
+                    <p:messages id="mess"/>
+
+                    <h:form>
+                        <h:commandLink action="new?faces-redirect=true">
+                            <h:outputText value="Adauga un nou tip" style="vertical-align: middle"/>
+                        </h:commandLink>
+                        <br/>
+                        <p:spacer height="10"/>
+                        <p:dataTable value="#{memberTypeController.memberTypes}"
+                                     style="width: 900px"
+                                     rowIndexVar="ind" var="item">
+                            <f:facet name="header"><h:outputText value="Planoare"/></f:facet>
+                            <p:column headerText="Denumire">
+                                <h:outputText value="#{item.name}"/>
+                            </p:column>
+                            <p:column headerText="Descriere">
+                                <h:outputText value="#{item.description}"/>
+                            </p:column>
+                            <p:column width="40">
+                                <a href="edit.xhtml?id=${item.id}">Edit</a>
+                            </p:column>
+                            <p:column width="30">
+                                <p:commandLink  action="#{memberTypeController.delete(item)}" ajax="false">
+                                    <h:outputText styleClass="ui-icon ui-icon-trash" />
+                                </p:commandLink>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </div>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+
+
+</html>
+

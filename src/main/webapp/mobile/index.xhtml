@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"
+    template="template/common/commonLayout.xhtml">
+    <ui:define name="content">
+        <pm:content>
+            <h:form>
+                <h2>Ultimele zboruri</h2>
+                <p:dataList value="#{flightController.flights}"
+                            rows="20"
+                            paginator="true" var="item">
+
+                    <h3><h:outputText value="#{item.flightDate}"/> 
+                        <p:spacer width="20"/>
+                        <h:outputText value="#{item.startHourAndMinute}" />-<h:outputText value="#{item.endHourAndMinute}" />
+                    </h3>
+                    <p>
+                        <h:outputText value="#{item.glider.registrationNumber}" style="font-weight: bold"/> remorcaj: 
+                        <h:outputText value="#{item.takeOffMethod}"   style="font-weight: bold"/>
+                    </p>
+                    <h2><h:outputText value="#{item.memberByPilotId.name}" style="color: #34759F"/></h2>
+                    <h2><h:outputText value="#{item.memberByCopilotId.name}" style="color: #34759F"/></h2>
+
+                    <p style="color:#555">Durata <h:outputText value="#{item.durationInHours} ore, "/>
+                        <h:outputText value="#{item.extraDurationInMinutes} minute"/></p>
+                    <p><h:outputText value="Observatii: #{item.observation} " rendered="#{!empty item.observation}"/></p>
+                    <h2 class="ui-li-aside">
+                        <br/>
+                        <a href="flight/edit.xhtml?id=${item.id}">Edit</a>
+                    </h2>
+                </p:dataList>     
+            </h:form>
+        </pm:content>
+    </ui:define>
+</ui:composition>

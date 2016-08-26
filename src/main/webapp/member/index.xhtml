@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Jurnal zboruri</title>
+        <h:outputStylesheet name="main.css" library="css" />
+        <h:outputStylesheet name="membermain.css" library="css" />
+    </h:head>
+    <ui:composition template="../template/member_r/commonLayout.xhtml">
+        <ui:define name="content">
+            <script>(function (d, s, id) {
+
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id))
+                        return;
+                    js = d.createElement(s);
+                    js.id = id;
+                    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v2.6";
+                    fjs.parentNode.insertBefore(js, fjs);
+
+                }(document, 'script', 'facebook-jssdk'));</script>
+            <style>
+                .fb-page, .fb-page iframe[style], .fb-page span { width: 100% !important; }
+            </style>
+            <div class="ui-g surround_r">
+                <ui:include src="day_and_flight/_list_by_day_fragment_1.xhtml"/>
+            </div>
+            
+        </ui:define>
+    </ui:composition>
+</html>
+

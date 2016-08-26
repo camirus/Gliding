@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"
+    template="../template/common/commonLayout.xhtml">
+
+    <ui:define name="content">
+        <pm:content>
+            <h:form>
+                <p:messages id="mess"/>
+                <p:commandLink action="list?faces-redirect=true" immediate="true">
+                    <h:graphicImage url="../../img/users.png" width="30" style="vertical-align: middle"/>
+                    <p:spacer width="5"/>
+                    <h:outputText value="Lista membri" style="vertical-align: middle"/>
+                </p:commandLink>
+                <br /><br />
+                <p:panel header="Adaugare membru">
+                    <ui:include src="_edit_fragment.xhtml"/>
+                    <p:commandButton  value="Adauga" ajax="false" 
+                                      action="#{memberController.insert()}"
+                                      style="width: 150px;margin-top: 50px;margin-bottom: 30px">
+                        <f:setPropertyActionListener target="#{memberController.username}"
+                                                     value="#{userManagerBean.username}"/>
+                    </p:commandButton>
+                </p:panel>
+            </h:form>
+        </pm:content>
+    </ui:define>
+</ui:composition>

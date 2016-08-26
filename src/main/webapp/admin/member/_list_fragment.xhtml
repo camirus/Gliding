@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <p:column width="40">
+        <f:facet name="header">
+            <h:outputText value="Nr"/>
+        </f:facet>
+        <h:outputText value="#{ind+1}"/>
+    </p:column>
+    <p:column headerText="Nume" filterBy="#{item.name}"
+              filterMatchMode="contains" sortBy="#{item.name}">
+        <a href="view.xhtml?id=${item.id}">
+            <h:outputText value="#{item.name}"  style="color:#34759F;font-size: 14px;"/>
+        </a>
+    </p:column>
+    <p:column headerText="Tip membru" filterBy="#{item.memberType.name}"
+              style="width: 170px;"
+              filterMatchMode="contains" sortBy="#{item.memberType.name}">
+        <h:outputText value="#{item.memberType.name}" />
+    </p:column>
+    <p:column headerText="Telefon" filterBy="#{item.telephone}"
+              style="width: 120px;text-align: center;"
+              filterMatchMode="contains" sortBy="#{item.telephone}">
+        <h:outputText value="#{item.telephone}"/>
+    </p:column>
+    <p:column headerText="Email" filterBy="#{item.email}" 
+              filterMatchMode="contains" sortBy="#{item.email}">
+        <h:outputText value="#{item.email}"/>
+    </p:column>
+    <p:column headerText="Calificari" filterBy="#{item.qualifications}"
+              filterMatchMode="contains" sortBy="#{item.qualifications}">
+        <h:outputText value="#{item.qualifications}"/>
+    </p:column>
+    <p:column headerText="Data nasterii" filterBy="#{item.birthDate}"
+              style="text-align: center;" visible="false"
+              filterMatchMode="contains" sortBy="#{item.birthDate}">
+        <h:outputText value="#{item.birthDate}"/>
+    </p:column>
+    <p:column headerText="Ore experienta initiala"
+              style="text-align: center;" visible="false"
+              filterMatchMode="contains" sortBy="#{item.initialNumberOfHoursOfExperience}">
+        <h:outputText value="#{item.initialNumberOfHoursOfExperience}"/>
+    </p:column>
+    <p:column headerText="Starturi experienta initiala"
+              style="text-align: center;" visible="false"
+              filterMatchMode="contains" sortBy="#{item.initialNumberOfTakeoffs}">
+        <h:outputText value="#{item.initialNumberOfTakeoffs}"/>
+    </p:column>
+    <p:column headerText="Data expirare licenta"
+              style="text-align: center;" visible="false"
+              filterBy="#{item.licenseExpiryDate}"
+              filterMatchMode="contains" sortBy="#{item.licenseExpiryDate}">
+        <h:outputText value="#{item.licenseExpiryDate}"/>
+    </p:column>
+    <p:column width="40" headerText="E">
+        <a href="edit.xhtml?id=${item.id}">Edit</a>
+    </p:column>
+    <p:column width="20" headerText="S">
+        <p:commandLink action="#{memberController.delete(item)}"
+                       ajax="false">
+            <h:outputText styleClass="ui-icon ui-icon-trash" />
+
+        </p:commandLink>
+    </p:column>
+
+
+</html>
+

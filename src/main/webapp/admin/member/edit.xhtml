@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Actualizare membru</title>
+    </h:head>
+    <ui:composition template="../../template/common/commonLayout.xhtml">
+        <ui:define name="content">
+            <p:panel styleClass="noBorderPanel">
+                <div id="container"  style="width: 900px;" >
+
+                    <div style="width: 800px;margin-left: auto;margin-right: auto;">
+                        <h:form>
+                            <p:messages id="mess"/>
+                            <p:commandLink action="list?faces-redirect=true" immediate="true">
+                                <h:graphicImage url="../../img/users.png" width="30" style="vertical-align: middle"/>
+                                <p:spacer width="5"/>
+                                <h:outputText value="Lista membri" style="vertical-align: middle"/>
+                            </p:commandLink>
+                            <br /><br />
+                            <p:panel style="width: 800px;padding: 5px;background-color: #fcfcfc" id="mainPanel">
+                                <f:facet name="header">
+                                    <h:outputText value="Actualizare date membru"/>
+                                </f:facet>
+                                <ui:include src="_member_fragment.xhtml"/>
+
+                                <p:commandButton  value="Salveaza" ajax="false" 
+                                                  action="#{memberController.update()}"
+                                                  style="width: 150px;margin-top: 50px;margin-bottom: 30px">
+                                    <f:setPropertyActionListener target="#{memberController.username}"
+                                                                 value="#{userManagerBean.username}"/>
+                                </p:commandButton>
+
+                            </p:panel>
+                        </h:form>
+                        <h:form>
+                            <p:panel style="width: 800px;padding: 5px;background-color: #fcfcfc" id="mainPanel">
+                                <f:facet name="header">
+                                    <h:outputText value="Date acces portal"/>
+                                </f:facet>
+                                <h:panelGroup rendered="#{!empty memberController.member.user}">
+                                    <h:outputText value="#{memberController.member.user.username}"/>
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{empty memberController.member.user}">
+                                    <p:commandButton  value="Creaza cont" ajax="false" 
+                                                      action="#{memberController.createUser()}"
+                                                      style="width: 150px;margin-top: 50px;margin-bottom: 30px">
+                                        <f:setPropertyActionListener target="#{memberController.username}"
+                                                                     value="#{userManagerBean.username}"/>
+                                    </p:commandButton>
+                                </h:panelGroup>
+                            </p:panel>
+
+                        </h:form>
+                    </div>
+
+
+
+                </div>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+
+
+</html>
+

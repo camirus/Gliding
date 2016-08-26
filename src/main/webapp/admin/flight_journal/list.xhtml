@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Lista zboruri logate GPS Tracker</title>
+    </h:head>
+    <ui:composition template="../../template/common/commonLayout.xhtml">
+        <ui:define name="content">
+            <p:panel styleClass="noBorderPanel" style="width: 90%;margin-left: auto;margin-right: auto;">
+                <p:messages id="mess"/>
+                <h:form>
+                    <br/>
+                    <p:spacer height="10"/>
+
+                    <p:dataTable value="#{flightJournalController.flightJournals}"
+                                 style="width: 100%"
+                                 rows="50"
+                                 paginator="true"
+                                 paginatorPosition="bottom"
+                                 rowIndexVar="ind" var="item">
+                        <f:facet name="header"><h:outputText value="Zboruri inregistrate cu GPS Tracker"/></f:facet>
+
+                        <p:column headerText="Decolare" filterBy="#{item.samplingStart}" width="200"
+                                  sortBy="#{item.samplingStart}"
+                                  filterMatchMode="contains" >
+                            <h:outputText value="#{item.samplingStart}"/>
+                        </p:column>
+                        <p:column headerText="Aterizare" filterBy="#{item.samplingEnd}" width="200"
+                                  sortBy="#{item.samplingEnd}"
+                                  filterMatchMode="contains" >
+                            <h:outputText value="#{item.samplingEnd}"/>
+                        </p:column>
+                        <p:column headerText="Adresa" filterBy="#{item.startAddress}"
+                                  sortBy="#{item.startAddress}"
+                                  filterMatchMode="contains" >
+                            <h:outputText value="#{item.startAddress}"/>
+                        </p:column>
+                        <p:column headerText="Durata" filterBy="#{item.durationStr}" width="100"
+                                  sortBy="#{item.durationStr}"
+                                  filterMatchMode="contains" >
+                            <h:outputText value="#{item.durationStr}"/>
+                        </p:column>
+                        <p:column headerText="Distanta" filterBy="#{item.distanceStr}" width="100"
+                                  sortBy="#{item.distanceStr}"
+                                  filterMatchMode="contains" >
+                            <h:outputText value="#{item.distanceStr}"/>
+                        </p:column>
+                        <p:column headerText="Viteza max" filterBy="#{item.maxSpeed}" width="100"
+                                  sortBy="#{item.maxSpeed}"
+                                  filterMatchMode="contains" >
+                            <h:outputText value="#{item.maxSpeed}"/>
+                        </p:column>
+                        <p:column width="10">
+                            <a href="../../DrawMap?glider=${item.planeName}&amp;&amp;start=${item.startTimeStr}&amp;&amp;end=${item.endTimeStr}" 
+                               target="_blank">
+                                <h:graphicImage url="../../img/map.png" width="15" style="vertical-align: middle"/>
+                            </a>
+                        </p:column>
+                    </p:dataTable>
+
+                </h:form>
+
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+
+
+</html>
+

@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <p:column width="40">
+        <f:facet name="header">
+            <h:outputText value="Nr"/>
+        </f:facet>
+        <h:outputText value="#{ind+1}"/>
+    </p:column>
+
+    <p:column headerText="Data" filterBy="#{item.flightDateStr}" width="100"
+              filterMatchMode="contains" sortBy="#{item.flightDate}"
+              style="font-weight: bold;text-align: center;">
+        <h:outputText value="#{item.flightDateStr}"/>
+    </p:column>
+    <p:column headerText="Decolare" filterBy="#{item.startHourAndMinute}" width="50"
+              filterMatchMode="contains" sortBy="#{item.startTime}"
+              style="text-align: center;">
+        <h:outputText value="#{item.startHourAndMinute}" />
+    </p:column>
+    <p:column headerText="Aterizare" filterBy="#{item.endHourAndMinute}" width="50"
+              filterMatchMode="contains" sortBy="#{item.endTime}"
+              style="text-align: center;">
+        <h:outputText value="#{item.endHourAndMinute}"  />
+    </p:column>
+    <p:column headerText="Planor" filterBy="#{item.glider.registrationNumber}" width="70"
+              filterMatchMode="contains" sortBy="#{item.glider.registrationNumber}"
+              style="text-align: center;">
+        <h:outputText value="#{item.glider.registrationNumber}" />
+    </p:column>
+    <p:column headerText="Pilot" filterBy="#{item.memberByPilotId.name}"
+              filterMatchMode="contains" sortBy="#{item.memberByPilotId.name}"
+              style="">
+        <a href="../member/view.xhtml?id=${item.memberByPilotId.id}">
+            <h:outputText value="#{item.memberByPilotId.name}" style="color: #34759F"/>
+        </a>
+
+    </p:column>
+    <p:column headerText="Copilot" filterBy="#{item.memberByCopilotId.name}"
+              filterMatchMode="contains" sortBy="#{item.memberByCopilotId.name}" 
+              style="">
+        <a href="../member/view.xhtml?id=${item.memberByCopilotId.id}">
+            <h:outputText value="#{item.memberByCopilotId.name}" style="color: #34759F"/>
+        </a>
+    </p:column>
+    <p:column headerText="Remorcaj" filterBy="#{item.takeOffMethod}" width="70"
+              filterMatchMode="contains" sortBy="#{item.takeOffMethod}"
+              style="text-align: center;"
+              >
+        <h:outputText value="#{item.takeOffMethod}"  style="color:#666"/>
+    </p:column>
+    <p:column headerText="Durata" filterBy="#{item.durationInHoursAndMinutes}" width="70"
+              filterMatchMode="contains" sortBy="#{item.durationInHoursAndMinutes}"
+              style="font-weight: bold;text-align: center;">
+        <h:outputText value="#{item.durationInHoursAndMinutes}"/>
+    </p:column>
+    <p:column headerText="Dist" filterBy="#{item.distance}" width="70"
+              filterMatchMode="contains" sortBy="#{item.distance}"
+              style="font-weight: bold;text-align: center;">
+        <h:outputText value="#{item.distance}"/>
+    </p:column>
+    <p:column headerText="In livret" 
+              rendered="#{userManagerBean.role eq 'ADMIN'}"
+              filterBy="#{item.inBookletStr}" width="70"
+              filterMatchMode="contains" sortBy="#{item.inBookletStr}"
+              style="font-weight: bold;text-align: center;">
+        <h:outputText value="#{item.inBookletStr}"/>
+    </p:column>
+    <p:column headerText="OLC" width="30">
+        <p:panelGrid rendered="#{!empty item.olcLink}">
+            <a target="_blank" href="${item.olcLink}">OLC</a>
+        </p:panelGrid>
+    </p:column>
+
+
+</html>
+

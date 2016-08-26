@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Actualizare membru</title>
+    </h:head>
+    <ui:composition template="../../template/common/commonLayout.xhtml">
+        <ui:define name="content">
+            <p:panel styleClass="noBorderPanel">
+                <div id="container"  style="width: 1100px;" >
+                    <h:form>
+                        <div style="width: 1050px;margin-left: auto;margin-right: auto;">
+                            <p:messages id="mess"/>
+                            <p:commandLink action="list?faces-redirect=true" immediate="true">
+                                <h:graphicImage url="../../img/users.png" width="30" style="vertical-align: middle;"/>
+                                <p:spacer width="5"/>
+                                <h:outputText value="Lista membri" style="vertical-align: middle"/>
+                            </p:commandLink>
+                            <br /><br />
+                            <p:panel style="width: 1050px;padding: 5px;background-color: #fcfcfc" id="mainPanel">
+                                <f:facet name="header">
+
+                                    <h2 style='font-family: "Ubuntu","Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 30px;margin-bottom: 10px;margin-top: 10px' >
+                                        <h:outputText value="#{viewMemberController.member.name}"/>
+                                    </h2>
+
+                                </f:facet>
+
+                                <p:panel style="float:left;margin-top: 30px">
+                                    <h:graphicImage url="../../img/user2.png" width="150" style="vertical-align: top;"/>
+                                </p:panel>
+                                <p:panelGrid columns="2" styleClass="noBorderGrid" columnClasses="leftNoBord,noBord"  
+                                             style="float:left;font-size: 16px;
+                                             font-family: 'Ubuntu','Helvetica Neue',Helvetica,Arial,sans-serif;
+                                             margin-top:50px">
+                                    <h:outputText value="Telefon:"/>
+                                    <h:outputText value="#{viewMemberController.member.telephone}" style="font-weight: bold "/>
+                                    <h:outputText value="Email:"/>
+                                    <h:outputText value="#{viewMemberController.member.email}"/>
+
+                                    <h:outputText value="Calificari:"/>
+                                    <h:outputText value="#{viewMemberController.member.qualifications}"/>
+                                </p:panelGrid>
+                                <div style="clear:left"></div>
+                                <div style="background-color: #fff;padding: 20px;width: 450px;margin-top: 20px;float:left">
+                                    <p:panelGrid columns="2" styleClass="noBorderGrid" columnClasses="leftNoBord,noBord" 
+                                                 style="margin-left: 20px;">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{viewMemberController.detailsForCurrentYear.year}"
+                                                          style="float:left;font-size: 26px;color: #34759F;
+                                                          font-family: 'Ubuntu','Helvetica Neue',Helvetica,Arial,sans-serif;
+                                                          margin-top:10px;margin-bottom: 20px"/>
+
+                                        </f:facet>
+                                        <h:outputText value="Nr zboruri:"/>
+                                        <h:outputText value="#{viewMemberController.detailsForCurrentYear.numberOfFlights}" />
+                                        <h:outputText value="Distanta totala (zboruri distanta):"/>
+                                        <h:outputText value="#{viewMemberController.detailsForCurrentYear.totalDistance} km"/>
+                                        <h:outputText value="Timp total zbor:"/>
+                                        <h:outputText value="#{viewMemberController.detailsForCurrentYear.durationInHours} ore 
+                                                      #{viewMemberController.detailsForCurrentYear.extraDurationInMinutes} minute"/>
+                                    </p:panelGrid>
+                                </div>
+                                <div style="background-color: #fff;padding: 20px;width: 450px;margin-top: 20px;float:left;margin-left: 20px">
+                                    <p:panelGrid columns="2" styleClass="noBorderGrid" columnClasses="leftNoBord,noBord" 
+                                                 style="margin-left: 20px;">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{viewMemberController.detailsForLastYear.year}"
+                                                          style="float:left;font-size: 26px;color: #34759F;
+                                                          font-family: 'Ubuntu','Helvetica Neue',Helvetica,Arial,sans-serif;
+                                                          margin-top:10px;margin-bottom: 20px"/>
+
+                                        </f:facet>
+                                        <h:outputText value="Nr zboruri:"/>
+                                        <h:outputText value="#{viewMemberController.detailsForLastYear.numberOfFlights}" />
+                                        <h:outputText value="Distanta totala (zboruri distanta):"/>
+                                        <h:outputText value="#{viewMemberController.detailsForLastYear.totalDistance} km"/>
+                                        <h:outputText value="Timp total zbor:"/>
+                                        <h:outputText value="#{viewMemberController.detailsForLastYear.durationInHours} ore 
+                                                      #{viewMemberController.detailsForLastYear.extraDurationInMinutes} minute"/>
+                                    </p:panelGrid>
+                                </div>
+                                <div style="clear:left"></div>
+                                <h2 style='font-family: "Ubuntu","Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 20px;margin-bottom: 20px;margin-top: 60px' >
+                                    Ultimele zboruri
+                                </h2>
+                                <p:dataTable value="#{viewMemberController.latestFlights}"
+                                             style="width: 100%"
+                                             rows="50"
+                                             id="table"
+                                             paginator="true"
+                                             widgetVar="flightTable"
+                                             paginatorPosition="bottom"
+                                             rowIndexVar="ind" var="item">
+                                    <f:facet name="header">
+                                        <h:outputText value="Zboruri"/>
+                                        <h:panelGroup style="float:right">
+                                            <h:outputText value="Cauta: "/>
+                                            <p:inputText id="globalFilter" onkeyup="PF('flightTable').filter()" 
+                                                         style="width:150px;" placeholder="" />
+                                        </h:panelGroup>
+                                        <div style="clear:both"></div>
+                                    </f:facet>
+
+                                    <p:column width="20">
+                                        <f:facet name="header">
+                                            <h:outputText value="Nr"/>
+                                        </f:facet>
+                                        <h:outputText value="#{ind+1}"/>
+                                    </p:column>
+                                    <p:column headerText="Data" filterBy="#{item.flightDateStr}" width="100"
+                                              filterMatchMode="contains" sortBy="#{item.flightDate}"
+                                              style="font-weight: bold;text-align: center;">
+                                        <h:outputText value="#{item.flightDateStr}"/>
+                                    </p:column>
+                                    <p:column headerText="Decolare" filterBy="#{item.startHourAndMinute}" width="50"
+                                              filterMatchMode="contains" sortBy="#{item.startTime}"
+                                              style="text-align: center;">
+                                        <h:outputText value="#{item.startHourAndMinute}" />
+                                    </p:column>
+                                    <p:column headerText="Aterizare" filterBy="#{item.endHourAndMinute}" width="50"
+                                              filterMatchMode="contains" sortBy="#{item.endTime}"
+                                              style="text-align: center;">
+                                        <h:outputText value="#{item.endHourAndMinute}"  />
+                                    </p:column>
+                                    <p:column headerText="Planor" filterBy="#{item.glider.registrationNumber}" width="70"
+                                              filterMatchMode="contains" sortBy="#{item.glider.registrationNumber}"
+                                              style="text-align: center;">
+                                        <h:outputText value="#{item.glider.registrationNumber}" />
+                                    </p:column>
+                                    <p:column headerText="Pilot" filterBy="#{item.memberByPilotId.name}"
+                                              filterMatchMode="contains" sortBy="#{item.memberByPilotId.name}"
+                                              style="">
+                                        <h:outputText value="#{item.memberByPilotId.name}" style="color: #34759F"/>
+                                    </p:column>
+                                    <p:column headerText="Copilot" filterBy="#{item.memberByCopilotId.name}"
+                                              filterMatchMode="contains" sortBy="#{item.memberByCopilotId.name}" 
+                                              style="">
+                                        <h:outputText value="#{item.memberByCopilotId.name} " style="color: #34759F"/>
+                                    </p:column>
+                                    <p:column headerText="Remorcaj" filterBy="#{item.takeOffMethod}" width="70"
+                                              filterMatchMode="contains" sortBy="#{item.takeOffMethod}"
+                                              style="text-align: center;"
+                                              >
+                                        <h:outputText value="#{item.takeOffMethod}"  style="color:#666"/>
+                                    </p:column>
+                                    <p:column headerText="Durata" filterBy="#{item.durationInHoursAndMinutes}" width="70"
+                                              filterMatchMode="contains" sortBy="#{item.durationInHoursAndMinutes}"
+                                              style="font-weight: bold;text-align: center;">
+                                        <h:outputText value="#{item.durationInHoursAndMinutes}"/>
+                                    </p:column>
+                                    <p:column headerText="In livret" 
+                                              rendered="#{userManagerBean.role eq 'ADMIN'}"
+                                              filterBy="#{item.inBookletStr}" width="70"
+                                              filterMatchMode="contains" sortBy="#{item.inBookletStr}"
+                                              style="font-weight: bold;text-align: center;">
+                                        <h:outputText value="#{item.inBookletStr}"/>
+                                    </p:column>
+                                    <p:column headerText="Observatii" filterBy="#{item.observation}" width="100"
+                                              filterMatchMode="contains" >
+                                        <h:outputText value="#{item.observation}"/>
+                                    </p:column>
+
+                                    <p:column width="40"  rendered="#{userManagerBean.role eq 'ADMIN'}">
+                                        <a href="../flight/edit.xhtml?id=${item.id}">Edit</a>
+                                    </p:column>
+
+                                </p:dataTable>
+
+                            </p:panel>
+                        </div>
+                    </h:form>
+                </div>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+
+
+</html>
+

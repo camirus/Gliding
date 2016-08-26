@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pm="http://primefaces.org/mobile">
+
+    <f:view renderKitId="PRIMEFACES_MOBILE" />
+
+    <pm:header >
+        <h:form style="text-align: center">
+            <h:commandLink action="/mobile/index?faces-redirect=true">
+                <h:graphicImage url="/img/sigla.png" style="vertical-align: middle" width="60"/>
+                <h:outputText value="Gliding Transilvania"/>
+            </h:commandLink>
+        </h:form>
+
+    </pm:header>
+    <pm:content>
+        <h:form>
+            <p:commandButton id="btn-basic" value="Meniu" type="button"/>
+            <p:overlayPanel for="btn-basic" widgetVar="pnl-basic" at="left" showEffect="overlay">
+                <h2>Meniu</h2>
+                <p:menu >
+                    <p:menuitem value="Zboruri" action="/mobile/flight/list?faces-redirect=true" style="background-color: #3388cc;color:white"/>
+                    <p:menuitem value="Zbor nou" action="/mobile/flight/new?faces-redirect=true" style="background-color: #3388cc;color:white"/>
+                    <p:menuitem value="Membri" action="/mobile/member/list?faces-redirect=true" style="background-color: #3388cc;color:white"/>
+                    <p:menuitem value="Membru nou" action="/mobile/member/new?faces-redirect=true" style="background-color: #3388cc;color:white"/>
+                    
+                </p:menu>
+                <p:menu>
+                    <p:menuitem value="Site" action="/mobile/member/new?faces-redirect=true" style="background-color: #3388cc;color:white"/>
+                </p:menu>
+            </p:overlayPanel>
+        </h:form>
+    </pm:content>
+
+</html>

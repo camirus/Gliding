@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Lista planoare</title>
+    </h:head>
+    <ui:composition template="../../template/common/commonLayout.xhtml">
+        <ui:define name="content">
+            <p:panel styleClass="noBorderPanel">
+                <div id="container" >
+                    <p:messages id="mess"/>
+                    <h:form>
+                        <h:commandLink action="new?faces-redirect=true">
+                            <h:graphicImage url="../../img/glider.jpg" width="30" style="vertical-align: middle"/>
+                            <p:spacer width="5"/>
+                            <h:outputText value="Adauga un nou planor" style="vertical-align: middle"/>
+                        </h:commandLink>
+                        <br/>
+                        <p:spacer height="10"/>
+                        <p:dataTable value="#{gliderController.gliders}"
+                                     style="width: 900px"
+                                     rowIndexVar="ind" var="item">
+                            <f:facet name="header"><h:outputText value="Planoare"/></f:facet>
+                            <p:column headerText="Inmatriculare">
+                                <h:outputText value="#{item.registrationNumber}"/>
+                            </p:column>
+                            <p:column headerText="Alias">
+                                <h:outputText value="#{item.alias}"/>
+                            </p:column>
+                            <p:column headerText="Model">
+                                <h:outputText value="#{item.model}"/>
+                            </p:column>
+                            <p:column headerText="GPS SYNC">
+                                <h:outputText value="#{item.gpsGatewayName}"/>
+                            </p:column>
+                            <p:column width="40">
+                                <a href="edit.xhtml?id=${item.id}">Edit</a>
+                            </p:column>
+                            <p:column width="30">
+                                <p:commandLink action="#{gliderController.delete(item)}" ajax="false">
+                                    <h:outputText styleClass="ui-icon ui-icon-trash" />
+                                </p:commandLink>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </div>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+
+
+</html>
+

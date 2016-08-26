@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Lista zboruri</title>
+    </h:head>
+    <ui:composition template="../../template/member_r/commonLayout.xhtml">
+        <ui:define name="content">
+            <div id="container"  style="width: 90%;" >
+                <div style="width: 100%;margin-left: auto;margin-right: auto;">
+                    <p:messages id="mess"/>
+                    <h:form>
+                        <br/>
+                        <p:spacer height="10"/>
+
+                        <p:dataTable value="#{flightMemberController.flights}"
+                                     style="width: 100%"
+                                     rows="50"
+                                     id="table"
+                                     reflow="true"
+                                     paginator="true"
+                                     widgetVar="flightTable"
+                                     paginatorPosition="bottom"
+                                     rowIndexVar="ind" var="item">
+                            <f:facet name="header">
+                                <h:outputText value="Zboruri"/>
+                                <h:panelGroup style="float:right">
+                                    <h:outputText value="Cauta: "/>
+                                    <p:inputText id="globalFilter" onkeyup="PF('flightTable').filter()" 
+                                                 style="width:150px;" placeholder="" />
+                                </h:panelGroup>
+                                <div style="clear:both"></div>
+                            </f:facet>
+
+                            <ui:include src="_list_fragment.xhtml"/>
+                            <p:column headerText="Observatii" filterBy="#{item.observation}" width="100"
+                                      filterMatchMode="contains" >
+                                <h:outputText value="#{item.observation}"/>
+                            </p:column>
+                            <p:column headerText="L" sortBy="#{item.level}" width="50">
+                                <h:graphicImage url="../../img/star.png" width="15" style="vertical-align: middle"
+                                                rendered="#{item.level gt 0}"/>
+                                <h:graphicImage url="../../img/star.png" width="15" style="vertical-align: middle"
+                                                rendered="#{item.level gt 1}"/>
+                                <h:graphicImage url="../../img/star.png" width="15" style="vertical-align: middle"
+                                                rendered="#{item.level gt 2}"/>
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </h:form>
+
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+
+
+</html>
+

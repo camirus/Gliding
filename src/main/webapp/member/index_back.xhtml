@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Jurnal zboruri</title>
+
+    </h:head>
+    <ui:composition template="../template/member/commonLayout.xhtml">
+
+
+        <ui:define name="content">
+            <script>(function (d, s, id) {
+
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id))
+                        return;
+                    js = d.createElement(s);
+                    js.id = id;
+                    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v2.6";
+                    fjs.parentNode.insertBefore(js, fjs);
+
+                }(document, 'script', 'facebook-jssdk'));</script>
+            
+            
+            <p:panel styleClass="noBorderPanel" >
+                <div id="top" >
+                    <div class="surround">
+                        <ui:include src="day_and_flight/_list_by_day_fragment.xhtml"/>
+                    </div>
+
+                    <div class="clear"></div>
+                </div>
+
+                <div id="down" >
+                    <div class="surround" style="width:400px; height: 550px">
+                        <h2 class="h2style" >
+                            Stats
+                        </h2>
+                    </div>
+                    <div class="surround-right" style="width:400px;height: 550px">
+                        <h2 class="h2style" >
+                            Facebook feed
+                        </h2>
+                        <div class="fb-page" data-href="https://www.facebook.com/glidingtransylvania/" 
+                             data-tabs="timeline" data-width="400" data-height="500" data-small-header="false" 
+                             data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+                            <div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/glidingtransylvania/">
+                                    <a href="https://www.facebook.com/glidingtransylvania/">Gliding Transylvania</a>
+                                </blockquote></div></div>
+                    </div>
+                    <div class="clear"></div>
+                    <br/><br/>
+                    <div class="surround" style="width: 92%">
+                        <h2 class="h2style" >
+                            Zboruri OLC
+                        </h2>
+                        <iframe src="http://www.onlinecontest.org/olc-2.0/gliding/flightsOfAirfield.html?aa=POIE1&amp;st=olcp&amp;rt=olc&amp;c=C0&amp;sc=&amp;sp=2016"
+                                width="100%" height="500" scrolling="yes" >
+
+                        </iframe>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+
+            </p:panel>
+
+        </ui:define>
+    </ui:composition>
+
+
+</html>
+

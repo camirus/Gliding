@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"
+    template="../template/common/commonLayout.xhtml">
+    <style>
+        .help{
+            color:#aaa;
+        }
+        .hours  .ui-block-b {
+            text-align: center;
+            font-weight: bold;
+        }
+        .ui-checkbox input, .ui-radio input {
+            position: relative !important;
+        }
+    </style>
+    <h:panelGroup>
+        <h:outputText value="Tip membru:"/>
+        <h:outputText value="*" style="color:red;font-weight: bold;"/>
+    </h:panelGroup>
+    <p:selectOneMenu id="member_type" value="#{memberController.member.memberType}" 
+                     required="true"
+                     converter="memberTypeConverter">
+        <f:selectItems value="#{memberController.memberTypes}" 
+                       var="item" itemLabel="#{item.name}" itemValue="#{item}"/>
+    </p:selectOneMenu>
+    <h:panelGroup>
+        <h:outputText value="Nume:"/>
+        <h:outputText value="*" style="color:red;font-weight: bold;"/>
+    </h:panelGroup>
+    <p:inputText id="name" value="#{memberController.member.name}" size="50"
+                 title="Name" required="true" requiredMessage="Campul nume este obligatoriu!" />
+    <h:outputText value="Telefon:"/>
+    <p:inputText id="tel" value="#{memberController.member.telephone}" size="20"
+                 title="Telefon"/>
+    <h:outputText value="Adresa:"/>
+    <p:inputText id="address" value="#{memberController.member.address}" size="50"/>
+    <h:outputText value="Email:"/>
+    <p:inputText id="email" value="#{memberController.member.email}" size="40"/>
+    <h:outputText value="Data nasterii:"/>
+    <p:calendar value="#{memberController.member.birthDate}"/>
+    <h:outputText value="CNP:"/>
+    <p:inputText value="#{memberController.member.cnp}" size="40"/>
+    <h2><h:outputText value="Licenta"/></h2>
+    <p:panelGrid columns="2" columnClasses="leftNoBord, noBord" styleClass="noBorderGrid">
+        <h:outputText value="Are licenta"/>
+        <p:selectBooleanCheckbox value="#{memberController.member.hasLicense}">
+            <p:ajax event="change" update="licensePanel"/> 
+        </p:selectBooleanCheckbox>
+    </p:panelGrid>
+    <p:panelGrid id="licensePanel" columns="1">
+        <h:panelGroup 
+            rendered="#{memberController.member.hasLicense}">
+            <br/>
+            <h:outputText value="Numar licenta"/>
+            <p:inputText value="#{memberController.member.licenseNumber}" size="20"/>
+            <h:outputText value="Data obtinere licenta:"/>
+            <p:calendar value="#{memberController.member.licenseFirstReleaseDate}"/>
+            <h:outputText value="Data expirare licenta:"/>
+            <p:calendar value="#{memberController.member.licenseExpiryDate}"/>
+            <br/>
+            <p:panelGrid columns="2" columnClasses="leftNoBord, noBord" styleClass="noBorderGrid">
+                <h:outputText value="Are licenta medicala:"/>
+                <p:selectBooleanCheckbox value="#{memberController.member.hasMedicalLicense}"/>
+            </p:panelGrid>
+            <br/>
+            <h:outputText value="Data expirare licenta medicala:"/>
+            <p:calendar value="#{memberController.member.medicalLicenseExpiryDate}"/>
+        </h:panelGroup>
+        <h:outputText value="Experienta"  style="font-size: 20px; font-weight: bold" styleClass="h3" 
+                      rendered="#{memberController.member.hasLicense}"/>
+        <br/>
+        <h:panelGroup rendered="#{memberController.member.hasLicense}">
+            <h:outputText value="Numar ore experienta"/>
+            <p:inputText value="#{memberController.member.initialNumberOfHoursOfExperience}" 
+                         size="10"/>
+            <h:outputText value="Numar start-uri"/>
+            <p:inputText value="#{memberController.member.initialNumberOfTakeoffs}" 
+                         size="10"/>
+        </h:panelGroup>
+        <h:outputText value="Calificari" styleClass="h3" style="font-size: 20px; font-weight: bold"
+                      rendered="#{memberController.member.hasLicense}"/><br/>
+        <h:panelGroup 
+            rendered="#{memberController.member.hasLicense}">
+            <p:panelGrid columns="4" columnClasses="leftNoBord, noBord" styleClass="noBorderGrid">
+                <h:outputText value="C de argint"/>
+                <p:selectBooleanCheckbox value="#{memberController.member.hasSilverBadge}"/>
+                <h:outputText value="C de aur"/>
+                <p:selectBooleanCheckbox value="#{memberController.member.hasGoldBadge}"/>
+                <h:outputText value="Acrobatie"/>
+                <p:selectBooleanCheckbox value="#{memberController.member.hasAcrobaticsBadge}"/>
+                <h:outputText value="Licenta ULM"/>
+                <p:selectBooleanCheckbox value="#{memberController.member.hasUlmLicense}"/>
+                <h:outputText value="Licenta mosor"/>
+                <p:selectBooleanCheckbox value="#{memberController.member.hasTowingLicense}"/>
+                <h:outputText value="Instructor"/>
+                <p:selectBooleanCheckbox value="#{memberController.member.instructor}"/>
+            </p:panelGrid>
+        </h:panelGroup>
+    </p:panelGrid>
+
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"
+    template="../template/common/commonLayout.xhtml">
+    <style>
+        .help{
+            color:#aaa;
+            display: none;
+        }
+
+        .hours  .ui-block-b {
+            text-align: center;
+            font-weight: bold;
+        }
+        .ui-checkbox input, .ui-radio input {
+            position: relative !important;
+        }
+    </style>
+    <h:outputText value="Selecteaza data " styleClass="help"/>
+    <p:outputLabel for="flightDate" >
+        <h:outputText value="Data zbor:" style="font-weight: bold;"/>
+        <h:outputText value="*" style="color:red;font-size: 24px;"/>
+    </p:outputLabel>
+    <p:calendar value="#{flightController.flight.flightDate}" id="flightDate"
+                pattern="dd/MM/yyyy"/><br/>
+    <h:outputText value="Selecteaza numele pilotului sau bifeaza membru nou daca membrul nu este introdus " styleClass="help"/>
+
+    <h:outputText value="Pilot:"  style="font-weight: bold;"/>
+    <h:outputText value="*" style="color:red;font-size: 24px;"/><br/>
+    <p:selectOneMenu value="#{flightController.flight.memberByPilotId}" 
+                     rendered="#{edit}"
+                     converter="memberConverter">
+        <f:selectItems value="#{memberController.members}" 
+                       var="item" itemLabel="#{item.name}" itemValue="#{item}"
+                       />
+    </p:selectOneMenu>
+    <p:autoComplete id="pilot" queryDelay="100"
+                    size="30"
+                    rendered="#{!edit}"
+                    value="#{flightController.flight.memberByPilotId}" 
+                    completeMethod="#{memberController.completeMembers}"
+                    var="item" itemLabel="#{item.name}" 
+                    itemValue="#{item}" converter="memberConverter" >
+        <h:outputText value="#{item.name}"/>
+    </p:autoComplete>
+    <p:panelGrid columns="2">
+        <h:outputText value="membru nou"/>
+        <p:selectBooleanCheckbox value="#{flightController.flight.pilotNew}" id="pilotNew">
+            <p:ajax event="change" update="pilotNewPanel"/> 
+        </p:selectBooleanCheckbox>
+    </p:panelGrid>
+
+    <h:panelGroup id="pilotNewPanel">
+        <p:panel style="margin-top: 20px;margin-bottom: 20px"
+                 styleClass="newMember" header="Pilot"
+                 rendered="#{flightController.flight.pilotNew}">
+            <pm:field>
+                <p:outputLabel for="member_type" >
+                    <h:outputText value="Tip membru:"/>
+                    <h:outputText value="*" style="color:red;font-size: 24px;"/>
+                </p:outputLabel>
+                <p:selectOneMenu id="member_type" value="#{flightController.flight.pilotMemberType}" 
+                                 converter="memberTypeConverter">
+                    <f:selectItems value="#{memberController.memberTypes}" 
+                                   var="item" itemLabel="#{item.name}" itemValue="#{item}"
+                                   />
+                </p:selectOneMenu>
+            </pm:field>
+            <pm:field>
+                <p:outputLabel for="name" >
+                    <h:outputText value="Nume:"/>
+                    <h:outputText value="*" style="color:red;font-size: 24px;"/>
+                </p:outputLabel>
+                <p:inputText id="name" value="#{flightController.flight.pilotName}" size="30"
+                             title="Name" required="#{flightController.flight.pilotNew}" 
+                             requiredMessage="Campul nume este obligatoriu!" />
+            </pm:field>
+            <pm:field>
+                <p:outputLabel for="tel" value="Telefon:"/>
+                <p:inputText id="tel" value="#{flightController.flight.pilotTelephone}" size="10"
+                             title="Telefon"/>
+            </pm:field>
+            <pm:field>
+                <p:outputLabel for="email" value="Email:"/>
+                <p:inputText id="email" value="#{flightController.flight.pilotEmail}" size="30"/>
+            </pm:field>
+            <pm:field>
+                <p:outputLabel for="cnp" value="CNP:"/>
+                <p:inputText value="#{flightController.flight.pilotCNP}" id="cnp" size="12"/>
+            </pm:field>
+            <br/>
+            <p:panelGrid columns="2">
+                <p:outputLabel for="hasLicense" value="Are licenta:"/>
+                <p:selectBooleanCheckbox value="#{flightController.flight.pilotHasLicense}" id="hasLicense"/>
+            </p:panelGrid>
+        </p:panel>
+    </h:panelGroup>
+
+    <br/>
+    <h:outputText value="Selecteaza numele copilotului sau bifeaza membru nou daca membrul nu este introdus " styleClass="help"/>
+    <br/>
+    <h:outputText value="Copilot:" style="font-weight: bold;"/>
+    <h:outputText value="*" style="color:red;font-size: 24px;"/>
+    <p:selectOneMenu value="#{flightController.flight.memberByCopilotId}" 
+                     rendered="#{edit}"
+                     converter="memberConverter">
+        <f:selectItems value="#{memberController.members}" 
+                       var="item" itemLabel="#{item.name}" itemValue="#{item}"
+                       />
+    </p:selectOneMenu>
+    <p:autoComplete id="advanced" queryDelay="100"
+                    size="30"
+                    rendered="#{!edit}"
+                    value="#{flightController.flight.memberByCopilotId}" 
+                    completeMethod="#{memberController.completeMembers}"
+                    var="item" itemLabel="#{item.name}" 
+                    itemValue="#{item}" converter="memberConverter" >
+        <h:outputText value="#{item.name}"/>
+    </p:autoComplete>
+    <p:panelGrid columns="2">
+        <p:outputLabel for="copilotNew" >
+            <h:outputText value="membru nou" />
+        </p:outputLabel>
+        <p:selectBooleanCheckbox value="#{flightController.flight.copilotNew}" id="copilotNew">
+            <p:ajax event="change" update="copilotNewPanel"/> 
+        </p:selectBooleanCheckbox>
+    </p:panelGrid>
+    <br/>
+    <h:panelGroup id="copilotNewPanel">
+        <p:panel style="margin-top: 20px;margin-bottom: 20px" styleClass="newMember"
+                 header="Copilot"
+                 rendered="#{flightController.flight.copilotNew}">
+            <pm:field>
+                <p:outputLabel for="member_type2" >
+                    <h:outputText value="Tip membru:"/>
+                    <h:outputText value="*" style="color:red;font-size: 24px;"/>
+                </p:outputLabel>
+                <p:selectOneMenu id="member_type2" value="#{flightController.flight.copilotMemberType}" 
+                                 converter="memberTypeConverter">
+                    <f:selectItems value="#{memberController.memberTypes}" 
+                                   var="item" itemLabel="#{item.name}" itemValue="#{item}"
+                                   />
+                </p:selectOneMenu>
+            </pm:field>
+            <pm:field>
+                <p:outputLabel for="name2" >
+                    <h:outputText value="Nume:"/>
+                    <h:outputText value="*" style="color:red;font-size: 24px;"/>
+                </p:outputLabel>
+                <p:inputText id="name2" value="#{flightController.flight.copilotName}" size="30"
+                             title="Name" required="#{flightController.flight.copilotNew}" 
+                             requiredMessage="Campul nume este obligatoriu!" />
+            </pm:field>
+            <pm:field>
+                <p:outputLabel for="tel2" value="Telefon:"/>
+                <p:inputText id="tel2" value="#{flightController.flight.copilotTelephone}" size="10"
+                             title="Telefon"/>
+            </pm:field>
+            <pm:field>
+                <p:outputLabel for="email2" value="Email:"/>
+                <p:inputText id="email2" value="#{flightController.flight.copilotEmail}" size="30"/>
+            </pm:field>
+            <pm:field>
+                <p:outputLabel for="cnp2" value="CNP:"/>
+                <p:inputText value="#{flightController.flight.copilotCNP}" id="cnp2" size="12"/>
+            </pm:field>
+            <br/>
+            <p:panelGrid columns="2">
+                <p:outputLabel for="hasLicense2" value="Are licenta:"/>
+                <p:selectBooleanCheckbox value="#{flightController.flight.copilotHasLicense}" id="hasLicense2"/>
+            </p:panelGrid>
+        </p:panel>
+    </h:panelGroup>
+
+    <pm:field>
+        <p:outputLabel for="glider">
+            <h:outputText value="Planor:" style="font-weight: bold;"/>
+            <h:outputText value="*" style="color:red;font-size: 24px;"/>
+        </p:outputLabel>
+
+        <p:selectOneMenu value="#{flightController.flight.glider}" 
+                         required="true"
+                         id="glider"
+                         converter="gliderConverter">
+            <f:selectItems value="#{flightController.gliders}" 
+                           var="item" itemLabel="#{item.registrationNumber}" itemValue="#{item}"
+                           />
+        </p:selectOneMenu>
+
+    </pm:field>
+    <pm:field>
+        <p:outputLabel for="takeOff">
+            <h:outputText value="Remorcaj:" style="font-weight: bold;"/>
+            <h:outputText value="*" style="color:red;font-size: 24px;"/>
+        </p:outputLabel>
+        <p:selectOneMenu value="#{flightController.flight.takeOffMethod}" 
+                         id="takeOff"
+                         required="true">
+            <f:selectItems value="#{flightController.takeOffMethods}" 
+                           var="item" itemLabel="#{item}" itemValue="#{item}"
+                           />
+        </p:selectOneMenu>
+    </pm:field>
+    <br/>
+    <h:outputText value="Selecteaza ora si minut decolare (ora 0 - 23) " styleClass="help"/>
+    <br/>
+    <h:outputText value="Decolare (ora:minut)" style="font-weight: bold;"/>
+    <h:outputText value="*" style="color:red;font-size: 24px;"/>
+    <br/>
+    <p:panelGrid columns="3" styleClass="hours">
+        <p:column>
+            <p:spinner id="sHour" value="#{flightController.flight.startHour}" min="0" max="23" size="1"/>
+        </p:column>
+        <p:column style="text-align: center;vertical-align: middle">
+            <h:outputText value=":" style="text-align: center"/>
+        </p:column>
+        <p:column>
+            <p:spinner id="sMinute" value="#{flightController.flight.startMinute}" min="0" max="59" size="1"/>
+        </p:column>
+    </p:panelGrid>
+    <br/>
+    <h:outputText value="Selecteaza ora si minut aterizare (ora 0-23) " styleClass="help"/>
+    <br/>
+    <h:outputText value="Aterizare (ora:minut)" style="font-weight: bold;"/>
+    <h:outputText value="*" style="color:red;font-size: 24px;"/>
+    <br/>
+    <p:panelGrid columns="3" styleClass="hours">
+        <p:column>
+            <p:spinner id="eHour" value="#{flightController.flight.endHour}" min="0" max="23" size="1"/>
+        </p:column>
+        <p:column style="text-align: center;vertical-align: middle">
+            <h:outputText value=":" style="text-align: center"/>
+        </p:column>
+        <p:column>
+            <p:spinner id="eMinute" value="#{flightController.flight.endMinute}" min="0" max="59" size="1"/>
+        </p:column>
+    </p:panelGrid>
+    <h2><h:outputText value="Alte informatii" styleClass="h3"/></h2>
+    <pm:field>
+        <p:outputLabel for="obs" value="Observatii" style="font-weight: bold;"/>
+        <p:inputTextarea 
+            value="#{flightController.flight.observation}" rows="3" cols="40" id="obs"/>
+    </pm:field>
+    <pm:field>
+        <p:outputLabel for="olc" value="Link OLC" style="font-weight: bold;"/>
+        <p:inputText value="#{flightController.flight.olcLink}" size="60" id="olc"/>
+    </pm:field>
+</html>

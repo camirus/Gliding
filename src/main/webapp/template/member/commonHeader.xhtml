@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <body>
+        <ui:composition>
+            <div id="left">
+            </div>
+            <div id="right">
+            </div>
+            <div id="head">
+                <div id="logo" style="float:left;margin-left: 50px;margin-top: 10px">
+                    <h:form>
+                        <h:commandLink action="/member/index?faces-redirect=true">
+                            <h:graphicImage url="/img/logoGT.png" style="vertical-align: middle" width="150"/>
+                        </h:commandLink>
+                    </h:form>
+                </div>
+                <div id="head2">
+                    <div id="title">
+                        <h:form>
+                            <p:outputLabel id="name"   
+                                           value="#{userManagerBean.user.username}" />  
+                            <p:spacer width="10"/>
+                            <h:commandLink action="#{userManagerBean.logout}" styleClass="logoutlink">
+                                <h:outputText value="logout"/>
+                            </h:commandLink>
+                        </h:form>
+                    </div>
+                    <div id="menu">
+                        <h:form>
+                            <p:menubar>
+                                <p:menuitem value="Adauga zbor" url="/faces/admin/flight/new.xhtml" icon="ui-icon-new">
+                                </p:menuitem>
+                                <p:menuitem>
+                                    <p:spacer width="1" height="22" style="position: relative; bottom: -5px;background-color: #A8A8A8; margin-left: 15px;margin-right: 15px" />
+                                </p:menuitem>
+                                <p:menuitem value="Cronometraj"  rendered="#{userManagerBean.role eq 'ADMIN'}"
+                                            url="/faces/admin/day_and_flight/list_by_day_edit.xhtml" icon="ui-icon-contact"/>
+                                <p:menuitem value="Jurnal zboruri"  rendered="#{userManagerBean.role ne 'ADMIN'}"
+                                            url="/faces/admin/day_and_flight/list_by_day.xhtml" icon="ui-icon-contact"/>
+                                <p:menuitem>
+                                    <p:spacer width="1" height="22" style="position: relative; bottom: -5px;background-color: #A8A8A8; margin-left: 15px;margin-right: 15px" />
+                                </p:menuitem>
+                                <p:submenu label="Administrare" icon="ui-icon-document">
+                                    <p:menuitem value="Cronometraj" url="/faces/admin/day_and_flight/list_by_day_edit.xhtml" icon="ui-icon-contact"/>
+                                    <p:submenu label="Zboruri" icon="ui-icon-document">
+                                        <p:menuitem value="Administrare zboruri" 
+                                                    url="/faces/admin/flight/list.xhtml" icon="ui-icon-contact"/>
+                                    </p:submenu>
+                                    <p:submenu label="Membri" icon="ui-icon-document">
+                                        <p:menuitem value="Membru nou" url="/faces/admin/member/new.xhtml" icon="ui-icon-contact"/>    
+                                        <p:menuitem value="Lista membri" url="/faces/admin/member/list.xhtml" icon="ui-icon-contact"/>
+                                    </p:submenu>
+                                    <p:menuitem value="Statistici" url="/faces/admin/pilot_details/list.xhtml" icon="ui-icon-contact"/>
+                                    <p:submenu label="Tipuri membri" icon="ui-icon-document">
+                                        <p:menuitem value="Tip nou" url="/faces/admin/member_type/new.xhtml" icon="ui-icon-contact"/>    
+                                        <p:menuitem value="Lista tipuri" url="/faces/admin/member_type/list.xhtml" icon="ui-icon-contact"/>
+                                    </p:submenu>
+                                    <p:separator />
+                                    <p:submenu label="Planoare" icon="ui-icon-document">
+                                        <p:menuitem value="Planor nou" url="/faces/admin/glider/new.xhtml" icon="ui-icon-contact"/>    
+                                        <p:menuitem value="Lista planoare" url="/faces/admin/glider/list.xhtml" icon="ui-icon-contact"/>
+                                    </p:submenu>
+                                    <p:separator />
+
+                                    <p:submenu label="Jurnal zboruri GPS" icon="ui-icon-document">
+                                        <p:menuitem value="Jurnal zboruri" 
+                                                    url="/faces/admin/flight_journal/list.xhtml" icon="ui-icon-contact"/>
+                                    </p:submenu>
+                                </p:submenu>
+
+                            </p:menubar>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+
+        </ui:composition>
+    </body>
+</html>
+
+

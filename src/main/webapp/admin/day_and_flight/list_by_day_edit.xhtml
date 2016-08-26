@@ -1,0 +1,273 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Lista zboruri/zile</title>
+        <style>
+
+        </style>
+        <script>
+            $(document).ready(function () {
+                $(".ui-cell-editor-input input").on("keypress", function (event) {
+                    var keycode = (event.keyCode ? event.keyCode : event.which);
+                    if (keycode == '13') {
+                        $(this).closest("tr").find(".ui-row-editor .ui-icon-check").click();
+                        return false;
+                    }
+                });
+
+            });
+        </script>
+    </h:head>
+    <ui:composition template="../../template/common/commonLayout.xhtml">
+        <ui:define name="content">
+
+            <p:panel styleClass="noBorderPanel" >
+                <div id="container" style="width: 1100px" >
+                    <p:panel styleClass="noBorderPanel" style="width: 98%;margin-left: auto;margin-right: auto;">
+                        <h:form id="form">
+                            <br/>
+                            <h2 style='font-family: "Ubuntu","Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 40px;margin-bottom: 40px' >
+                                Cronometraj
+                            </h2>
+                            <h:panelGrid columns="5" style="float:left">
+                                <h:panelGroup>
+                                    <h:outputText value="Data zbor" style="font-weight: bold"/>
+                                    &nbsp;&nbsp;
+                                </h:panelGroup>
+                                <p:commandLink value="&lt;&lt;" oncomplete="PF('dataTableWidgetVar').clearFilters()"
+                                               action="#{newDayAndFlightController.decrementDate()}" 
+                                               ajax="false" update="table, date"/>
+                                <p:calendar id="date" value="#{newDayAndFlightController.selectedDate}" 
+                                            title="Data zbor"
+                                            pattern="dd/MM/yyyy" required="true">
+                                    <p:ajax event="dateSelect" listener="#{newDayAndFlightController.onDateSelect}" update="table" />
+                                </p:calendar>
+                                <p:commandLink value="&gt;&gt;" action="#{newDayAndFlightController.incrementDate}" 
+                                               ajax="false" update="table, date"
+                                               oncomplete="PF('dataTableWidgetVar').clearFilters()"/>
+                                <h:panelGroup>
+                                    &nbsp;&nbsp;
+                                    <p:commandLink value="Toate zborurile" style="font-size: 15px;"
+                                                   action="/admin/flight/list?faces-redirect=true"/>
+                                </h:panelGroup>
+
+                            </h:panelGrid>
+                            <h:panelGrid columns="1" style="float:right">
+                                <h:outputText value="Filtre" style="font-weight: bold;font-size: 16px;color:#aaa"/>
+                            </h:panelGrid>
+                            <div style="clear:right"></div>
+                            <h:panelGrid columns="3" style="float:right">
+                                <h:outputText value="Planor" style="font-weight: bold"/>
+                                &nbsp;&nbsp;&nbsp;
+                                <p:selectOneMenu id="collector" 
+                                                 value="#{newDayAndFlightController.glider}" 
+                                                 converter="gliderConverter"
+                                                 effect="fade" var="t"  filter="true" 
+                                                 filterMatchMode="contains">
+                                    <p:ajax listener="#{newDayAndFlightController.selectedGliderChanged()}"
+                                            event="change" update="table"/>
+                                    <f:selectItem itemLabel="Toate" itemValue="" />
+                                    <f:selectItems value="#{gliderController.gliders}" 
+                                                   var="item" itemLabel="#{item.registrationNumber}" itemValue="#{item}" />
+                                    <p:column style="width:100%">
+                                        <h:outputText value="#{t.registrationNumber}" />
+                                    </p:column>
+                                </p:selectOneMenu>
+
+                            </h:panelGrid>
+                            <br/><br/>
+                            <p:spacer height="15"/>
+                            <div class="clear" style="clear:both"></div>
+
+                            <p:growl id="msgs" showDetail="true"/>
+
+                            <p:commandLink id="btnAddEntry" 
+                                           value="Adauga zbor" actionListener="#{newDayAndFlightController.addNewFlight()}" 
+                                           update="table"
+                                           oncomplete="jQuery('.ui-datatable-data tr').last().find('span.ui-icon-pencil').each(function(){jQuery(this).click()});"/>
+                            <br/><br/>
+
+                            <p:dataTable value="#{newDayAndFlightController.flights}"
+                                         id="table"
+                                         style="width: 100%;margin-bottom: 50px"
+                                         styleClass="tablejournal"
+                                         paginator="false"
+                                         widgetVar="dataTableWidgetVar"
+                                         rowIndexVar="ind" var="item"
+                                         editable="true"
+                                         >
+
+                                <p:ajax event="rowEdit" listener="#{newDayAndFlightController.onRowEdit}" update=":form:msgs" />
+                                <p:ajax event="rowEditCancel" listener="#{newDayAndFlightController.onRowCancel}" update=":form:msgs" />
+
+                                <p:column width="30">
+                                    <f:facet name="header">
+                                        <h:outputText value="Nr"/>
+                                    </f:facet>
+                                    <h:outputText value="#{ind+1}"/>
+                                </p:column>
+                                <p:column headerText="Data" width="80"
+                                          style="font-weight: bold;text-align: center;">
+                                    <a href="#{facesContext.externalContext.requestContextPath}/faces/admin/flight/edit.xhtml?id=${item.id}">
+                                        <h:outputText value="#{item.flightDateStr}" style="color:#000"/>
+                                    </a>
+                                </p:column>
+                                <p:column headerText="Pilot" 
+                                          sortBy="#{item.memberByPilotId.name}"
+                                          style="">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <a href="#{facesContext.externalContext.requestContextPath}/faces/admin/member/view.xhtml?id=${item.memberByPilotId.id}">
+                                                <h:outputText value="#{item.memberByPilotId.name}" style="color: #34759F"/>
+                                            </a>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:autoComplete id="pilot" queryDelay="100"
+                                                            size="30"
+                                                            value="#{item.memberByPilotId}" 
+                                                            completeMethod="#{memberController.completeMembers}"
+                                                            var="itemm" itemLabel="#{itemm.name}" 
+                                                            autocomplete="off"
+                                                            itemValue="#{itemm}" converter="memberConverter" >
+                                                <h:outputText value="#{itemm.name}"/>
+                                            </p:autoComplete>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="Pilot" 
+                                          sortBy="#{item.memberByCopilotId.name}"
+                                          style="">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <a href="#{facesContext.externalContext.requestContextPath}/faces/admin/member/view.xhtml?id=${item.memberByCopilotId.id}">
+                                                <h:outputText value="#{item.memberByCopilotId.name}" style="color: #34759F"/>
+                                            </a>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:autoComplete id="copilot" queryDelay="100"
+                                                            size="30"
+                                                            value="#{item.memberByCopilotId}" 
+                                                            completeMethod="#{memberController.completeMembers}"
+                                                            var="itemm" itemLabel="#{itemm.name}" 
+                                                            autocomplete="off"
+                                                            itemValue="#{itemm}" converter="memberConverter" >
+                                                <h:outputText value="#{itemm.name}"/>
+                                            </p:autoComplete>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="Planor inmatriculare" width="80"
+                                          sortBy="#{item.glider.registrationNumber}"
+                                          style="text-align: center;">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{item.glider.registrationNumber}" /></f:facet>
+                                        <f:facet name="input">
+                                            <h:selectOneMenu value="#{item.glider}" 
+                                                             style="height: 100%"
+                                                             required="true"
+                                                             converter="gliderConverter">
+                                                <f:selectItems value="#{flightController.gliders}" 
+                                                               var="item" itemLabel="#{item.registrationNumber}" itemValue="#{item}"
+                                                               />
+                                            </h:selectOneMenu>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column headerText="Metoda lansarii" 
+                                          width="70"
+                                          sortBy="#{item.takeOffMethod}"
+                                          style="text-align: center;"
+                                          >
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{item.takeOffMethod}"  style="color:#666"/></f:facet>
+                                        <f:facet name="input">
+                                            <h:selectOneMenu value="#{item.takeOffMethod}" 
+                                                             required="true">
+                                                <f:selectItems value="#{flightController.takeOffMethods}" 
+                                                               var="itemt" itemLabel="#{itemt}" itemValue="#{itemt}"
+                                                               />
+                                            </h:selectOneMenu>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="Decolare" width="50"
+                                          sortBy="#{item.startHourAndMinute}"
+                                          style="text-align: center;">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{item.startHourAndMinute}" /></f:facet>
+                                        <f:facet name="input">
+                                            <h:inputText value="#{item.startHourAndMinuteInput}"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+
+                                </p:column>
+                                <p:column headerText="Aterizare" width="50"
+                                          sortBy="#{item.endHourAndMinute}"
+                                          style="text-align: center;">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{item.endHourAndMinute}" /></f:facet>
+                                        <f:facet name="input">
+                                            <h:inputText value="#{item.endHourAndMinuteInput}"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="Durata" width="50"
+                                          sortBy="#{item.durationInMinutes}"
+                                          style="font-weight: bold;text-align: center;">
+                                    <h:outputText value="#{item.durationInHoursAndMinutes}"/>
+                                </p:column>
+                                <p:column headerText="In livret" 
+                                          width="50"
+                                          style="text-align: center;"
+                                          >
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:selectBooleanCheckbox 
+                                                value="#{item.inBooklet}" disabled="true" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <h:selectBooleanCheckbox 
+                                                value="#{item.inBooklet}"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column headerText="OBS" width="100"
+                                          style="text-align: center;">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{item.observation}" /></f:facet>
+                                        <f:facet name="input">
+                                            <h:inputText value="#{item.observation}"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column style="width:32px">
+                                    <p:rowEditor />
+                                </p:column>
+
+                                <p:column width="20">
+                                    <p:commandLink action="#{newDayAndFlightController.deleteFlight(item)}"
+                                                   ajax="false" update=":form:table,:form:msgs">
+                                        <h:outputText styleClass="ui-icon ui-icon-trash" />
+                                    </p:commandLink>
+                                </p:column>
+                            </p:dataTable>
+
+                        </h:form>
+
+                    </p:panel>
+                </div>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+
+
+</html>
+

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:outputText value="Detalii" styleClass="h3"/>
+    <p:panelGrid columns="2" columnClasses="leftNoBordBig, noBord" styleClass="noBorderGrid">
+        <h:outputText value="Inmatriculare planor:"/>
+        <p:inputText id="reg" value="#{gliderController.glider.registrationNumber}" size="30"
+                     title="Inmatriculare" required="true" requiredMessage="Campul inmatriculare este obligatoriu!" />
+        <h:outputText value="Alias:"/>
+        <p:inputText id="alias" value="#{gliderController.glider.alias}" size="30"
+                     title="Alias"/>
+        <h:outputText value="Tip planor:"/>
+        <p:inputText id="type" value="#{gliderController.glider.model}" size="20"
+                     title="Model" required="true" requiredMessage="Campul tip este obligatoriu!" />
+    </p:panelGrid>
+</html>
+

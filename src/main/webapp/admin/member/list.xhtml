@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Lista membri</title>
+
+
+    </h:head>
+    <ui:composition template="../../template/common/commonLayout.xhtml">
+        <ui:define name="content">
+            <div id="container"  style="width: 1100px;" >
+                <p:panel styleClass="noBorderPanel" style="width: 100%;margin-left: auto;margin-right: auto;">
+                    <p:messages id="mess"/>
+                    <h:form>
+                        <h:commandLink action="new?faces-redirect=true">
+                            <h:graphicImage url="../../img/add_user.png" width="30" style="vertical-align: middle"/>
+                            <p:spacer width="5"/>
+                            <h:outputText value="Adauga un nou membru" style="vertical-align: middle" styleClass="main_link"/>
+                        </h:commandLink>
+                        <br/>
+                        <p:spacer height="10"/>
+                        <p:tabView dynamic="true" >
+                            <p:tab title="Membri permanenti">
+                                <p:dataTable value="#{memberController.permanentMembers}"
+                                             style="width: 100%"
+                                             rows="50"
+                                             id="table"
+                                             paginator="true"
+                                             paginatorPosition="bottom"
+                                             rowIndexVar="ind" var="item">
+                                    <f:facet name="header">
+                                        <h:outputText value="Membri"/>
+                                        <p:commandLink id="toggler" value="Selecteaza coloane" style="float:right"/>
+                                        <p:columnToggler datasource="table" trigger="toggler" />
+                                    </f:facet>
+                                    <ui:include src="_list_fragment.xhtml"/>
+                                </p:dataTable>
+                            </p:tab>
+                            <p:tab title="Membri pentru o zi">
+                                <p:dataTable value="#{memberController.oneDayMembers}"
+                                             style="width: 100%"
+                                             rows="50"
+                                             paginator="true"
+                                             id="table2"
+                                             paginatorPosition="bottom"
+                                             rowIndexVar="ind" var="item">
+                                    <f:facet name="header"><h:outputText value="Membri"/>
+                                        <p:commandLink id="toggler" value="Selecteaza coloane" style="float:right"/>
+                                        <p:columnToggler datasource="table2" trigger="toggler" />
+                                    </f:facet>
+                                    <ui:include src="_list_fragment.xhtml"/>
+                                </p:dataTable>
+                            </p:tab>
+                            <p:tab title="Toti membrii">
+                                <p:dataTable value="#{memberController.members}"
+                                             style="width: 100%"
+                                             rows="50"
+                                             paginator="true"
+                                             paginatorPosition="bottom"
+                                             id="table3"
+                                             rowIndexVar="ind" var="item">
+                                    <f:facet name="header"><h:outputText value="Membri"/>
+                                        <p:commandLink id="toggler" value="Selecteaza coloane" style="float:right"/>
+                                        <p:columnToggler datasource="table3" trigger="toggler" />
+                                    </f:facet>
+                                    <ui:include src="_list_fragment.xhtml"/>
+                                </p:dataTable>
+                            </p:tab>
+                        </p:tabView>
+                    </h:form>
+
+                </p:panel>
+            </div>
+        </ui:define>
+    </ui:composition>
+
+
+</html>
+

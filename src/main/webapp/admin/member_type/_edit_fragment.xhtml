@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:outputText value="Detalii" styleClass="h3"/>
+    <p:panelGrid columns="3" columnClasses="leftNoBordBig, noBord, noBord" styleClass="noBorderGrid">
+        <h:outputText value="Denumire tip membru"/>
+        <h:outputText value="*" style="color:red;font-size: 24px;"/>
+        <p:inputText id="name" value="#{memberTypeController.memberType.name}" size="30" required="true"/>
+        <h:outputText value="Descriere:"/>
+        <h:outputText value=""/>
+        <h:panelGroup>
+            <p:inputTextarea id="desc" value="#{memberTypeController.memberType.description}" 
+                             validatorMessage="Eroare camp descriere"
+                             rows="5" cols="40" maxlength="250"/>
+            <br/>
+            <h:outputText value="Principalele caracteristici, drepturi si obligatii ale acestei categorii de membri. Max 250 caractere."
+                          styleClass="help"/>
+        </h:panelGroup>
+        <h:outputText value="Membru pentru o zi:"/>
+        <h:outputText value=""/>
+        <h:panelGroup>
+            <p:selectBooleanCheckbox id="one_day" value="#{memberTypeController.memberType.oneDayMember}"/>
+            <p:spacer width="20"/>
+            <h:outputText value="Bifeaza daca membrul nu face parte din asociatie si a participat doar ocazional la zbor."
+                          styleClass="help"/>
+        </h:panelGroup>
+    </p:panelGrid>
+</html>
+

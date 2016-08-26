@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:outputText value="Date contact" styleClass="h3"/>
+    <p:panelGrid columns="3" columnClasses="leftNoBord, noBord, noBord" styleClass="noBorderGrid">
+        <h:outputText value="Tip membru:"/>
+        <h:outputText value="*" style="color:red;font-size: 24px;"/>
+        <h:panelGroup>
+            <p:selectOneMenu id="member_type" 
+                             required="true" requiredMessage="Campul tip membru este obligatoriu"
+                             value="#{memberController.member.memberType}" 
+                             converter="memberTypeConverter">
+                <f:selectItems value="#{memberController.memberTypes}"  
+                               var="item" itemLabel="#{item.name}" itemValue="#{item}"
+                               />
+            </p:selectOneMenu>
+            <br/>
+            <h:outputText value="Selecteaza tip membru " styleClass="help"/>
+        </h:panelGroup>
+        <h:outputText value="Nume:"/>
+        <h:outputText value="*" style="color:red;font-size: 24px;"/>
+        <h:panelGroup>
+            <p:inputText id="name" value="#{memberController.member.name}" size="50"
+                         title="Name" required="true" 
+                         requiredMessage="Campul nume este obligatoriu!" />
+            <br/>
+            <h:outputText value="Nume si prenume membru" styleClass="help"/>
+        </h:panelGroup>
+        <h:outputText value="Telefon:"/>
+        <h:outputText value="" />
+        <h:panelGroup>
+            <p:inputText id="tel" value="#{memberController.member.telephone}" size="20"
+                         title="Telefon"/>
+            <br/>
+            <h:outputText value="Telefon membru" styleClass="help"/>
+        </h:panelGroup>
+        <h:outputText value="Adresa:"/>
+        <h:outputText value="" />
+        <h:panelGroup>
+            <p:inputText id="address" value="#{memberController.member.address}" size="50"/>
+            <br/>
+            <h:outputText value="Adresa de resedinta" styleClass="help"/>
+        </h:panelGroup>
+        <h:outputText value="Email:"/>
+        <h:outputText value="" />
+        <h:panelGroup>
+            <p:inputText id="email" value="#{memberController.member.email}" size="40" validatorMessage="adresa email nu este valida">
+                <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+            </p:inputText>
+            <br/>
+            <h:outputText value="Adresa email" styleClass="help"/>
+        </h:panelGroup>
+        <h:outputText value="Data nasterii:"/>
+        <h:outputText value="" />
+        <h:panelGroup>
+            <p:calendar value="#{memberController.member.birthDate}"/><br/>
+            <h:outputText value="Selecteaza data nasterii" styleClass="help"/>
+        </h:panelGroup>
+        <h:outputText value="CNP:"/>
+        <h:outputText value="" />
+        <h:panelGroup>
+            <p:inputText value="#{memberController.member.cnp}" size="40"/><br/>
+            <h:outputText value="Cod numeric personal" styleClass="help"/>
+        </h:panelGroup>
+    </p:panelGrid>
+    <h:outputText value="Licenta" styleClass="h3"/>
+    <p:panelGrid columns="3" columnClasses="leftNoBord, noBord, noBord" styleClass="noBorderGrid">
+        <h:outputText value="Are licenta"/>
+        <h:outputText value=""/>
+        <p:selectBooleanCheckbox value="#{memberController.member.hasLicense}">
+            <p:ajax event="change" update="licensePanel"/> 
+        </p:selectBooleanCheckbox>
+    </p:panelGrid>
+    <h:panelGroup id="licensePanel">
+        <p:panelGrid columns="3" columnClasses="leftNoBord, noBord, noBord" styleClass="noBorderGrid"
+                     rendered="#{memberController.member.hasLicense}">
+            <h:outputText value="Numar licenta"/>
+            <h:outputText value="" />
+            <p:inputText value="#{memberController.member.licenseNumber}" size="20" maxlength="49"/>
+            <h:outputText value="Data obtinere licenta:"/>
+            <h:outputText value="" />
+            <p:calendar value="#{memberController.member.licenseFirstReleaseDate}"/>
+            <h:outputText value="Data expirare licenta:"/>
+            <h:outputText value="" />
+            <p:calendar value="#{memberController.member.licenseExpiryDate}"/>
+            <h:outputText value="Are licenta medicala"/>
+            <h:outputText value="" />
+            <p:selectBooleanCheckbox value="#{memberController.member.hasMedicalLicense}"/>
+            <h:outputText value="Data expirare licenta medicala:"/>
+            <h:outputText value="" />
+            <p:calendar value="#{memberController.member.medicalLicenseExpiryDate}"/>
+        </p:panelGrid>
+        <h:outputText value="Experienta" styleClass="h3" 
+                      rendered="#{memberController.member.hasLicense}"/>
+
+        <p:panelGrid columns="4" columnClasses="leftNoBord, noBord, leftNoBord, noBord" 
+                     styleClass="noBorderGrid"
+                     rendered="#{memberController.member.hasLicense}">
+            <h:outputText value="Numar ore experienta"/>
+            <p:inputText value="#{memberController.member.initialNumberOfHoursOfExperience}" 
+                         validatorMessage="Numar ore experienta invalid"
+                         size="10">
+                <f:validateLongRange minimum="1" maximum="100000"/>
+            </p:inputText>
+            <h:outputText value="Numar start-uri"/>
+            <p:inputText value="#{memberController.member.initialNumberOfTakeoffs}" 
+                         validatorMessage="Numar starturi invalid"
+                         size="10">
+                <f:validateLongRange minimum="1" maximum="100000"/>
+            </p:inputText>
+        </p:panelGrid>
+        <h:outputText value="Experienta initiala, la momentul crearii contului" styleClass="help"
+                      rendered="#{memberController.member.hasLicense}" style="margin-left: 70px"/><br/>
+        <h:outputText value="Calificari" styleClass="h3" 
+                      rendered="#{memberController.member.hasLicense}"/>
+        <p:panelGrid columns="6" columnClasses="leftNoBord, noBord, leftNoBord, noBord, leftNoBord, noBord" 
+                     styleClass="noBorderGrid"
+                     rendered="#{memberController.member.hasLicense}">
+            <p:panel style="border: 0px;background: none;padding: 0px">
+                <h:graphicImage url="../../img/silver.jpg" width="30" style="vertical-align: middle"/>
+                <br/>
+                <h:outputText value="C de argint"/>
+            </p:panel>
+            <p:selectBooleanCheckbox value="#{memberController.member.hasSilverBadge}"/>
+            <p:panel style="border: 0px;background: none;padding: 0px">
+                <h:graphicImage url="../../img/gold.jpg" width="30" style="vertical-align: middle"/>
+                <br/>
+                <h:outputText value="C de aur"/>
+
+            </p:panel >
+            <p:selectBooleanCheckbox value="#{memberController.member.hasGoldBadge}"/>
+            <p:panel style="border: 0px;background: none;padding: 0px">
+                <h:graphicImage url="../../img/acro.png" width="30" style="vertical-align: middle"/>
+                <br/>
+                <h:outputText value="Acrobatie"/>
+            </p:panel>
+
+            <p:selectBooleanCheckbox value="#{memberController.member.hasAcrobaticsBadge}"/>
+            <h:outputText value="Licenta ULM"/>
+            <p:selectBooleanCheckbox value="#{memberController.member.hasUlmLicense}"/>
+            <h:outputText value="Licenta mosor"/>
+            <p:selectBooleanCheckbox value="#{memberController.member.hasTowingLicense}"/>
+            <h:outputText value="Instructor"/>
+            <p:selectBooleanCheckbox value="#{memberController.member.instructor}"/>
+        </p:panelGrid>
+    </h:panelGroup>
+</html>
+

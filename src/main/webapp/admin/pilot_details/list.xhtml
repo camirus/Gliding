@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Statistici membri</title>
+    </h:head>
+    <ui:composition template="../../template/common/commonLayout.xhtml">
+        <ui:define name="content">
+            <p:panel styleClass="noBorderPanel" style="width: 90%;margin-left: auto;margin-right: auto;">
+                <p:messages id="mess"/>
+                <div id="container"  style="width: 900px;" >
+                    <h:form>
+                        <br/>
+                        <p:spacer height="10"/>
+
+                        <p:panel style="width: 400px;float: left;margin-left: 20px">
+                            <h:panelGrid columns="2">
+                                <h:outputText value="Nr zboruri" />
+                                <h:outputText 
+                                    value="#{pilotDetailsListController.
+                                             clubDetailsForCurrentYear.
+                                             numberOfFlights}"/>
+                                <h:outputText value="Total ore" />
+                                <h:outputText 
+                                    value="#{pilotDetailsListController.
+                                             clubDetailsForCurrentYear.
+                                             durationInHoursAndMinutes}"/>
+                                <h:outputText value="Total km (zbor distanta)"/>
+                                <h:outputText 
+                                    value="#{pilotDetailsListController.
+                                             clubDetailsForCurrentYear.
+                                             totalDistance}"/>
+                                </h:panelGrid>
+                                <br/>
+                                <p:dataTable value="#{pilotDetailsListController.pilotDetailsListForCurrentYear}"
+                                             rows="50"
+                                             paginator="true"
+                                             paginatorPosition="bottom"
+                                             rowIndexVar="ind" var="item">
+                                    <f:facet name="header"><h:outputText value="Statistici an curent"/></f:facet>
+                                    <ui:include src="_list_fragment.xhtml"/>
+                                </p:dataTable>
+                        </p:panel>
+
+                        <p:panel style="width: 400px;float: left;margin-left: 20px">
+                            <h:panelGrid columns="2">
+                                <h:outputText value="Nr zboruri" />
+                                <h:outputText 
+                                    value="#{pilotDetailsListController.
+                                             clubDetailsForLastYear.
+                                             numberOfFlights}"/>
+                                <h:outputText value="Total ore" />
+                                <h:outputText 
+                                    value="#{pilotDetailsListController.
+                                             clubDetailsForLastYear.
+                                             durationInHoursAndMinutes
+                                             }"/>
+                                <h:outputText value="Total km (zbor distanta)"/>
+                                <h:outputText 
+                                    value="#{pilotDetailsListController.
+                                             clubDetailsForLastYear.
+                                             totalDistance}"/>
+                                </h:panelGrid>
+                                <br/>
+                                <p:dataTable value="#{pilotDetailsListController.
+                                                      pilotDetailsListForLastYear}"
+                                             rows="50"
+                                             paginator="true"
+                                             paginatorPosition="bottom"
+                                             rowIndexVar="ind" var="item">
+                                    <f:facet name="header"><h:outputText value="Statistici an precedent"/></f:facet>
+                                    <ui:include src="_list_fragment.xhtml"/>
+                                </p:dataTable>
+                        </p:panel>
+
+                        <div style="clear:both"></div>
+                    </h:form>
+                </div>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+
+
+</html>

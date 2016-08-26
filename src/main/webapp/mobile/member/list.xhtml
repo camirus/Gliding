@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"
+    template="../template/common/commonLayout.xhtml">
+
+    <ui:define name="content">
+        <pm:content>
+            <h:form>
+                <h:outputText value="Cautare membru"/>
+                <p:autoComplete id="advanced" queryDelay="1000" 
+                                value="#{memberController.member}" completeMethod="#{memberController.completeMembers}"
+                                var="item" itemLabel="#{item.name}" itemValue="#{item}" converter="memberConverter" >
+                    <h:outputText value="#{item.name}"/>
+                    <p:ajax event="itemSelect" update="table" />
+                </p:autoComplete>
+                <h2 class="first">Membri</h2>
+                <h:commandLink action="new?faces-redirect=true">
+                    <h:graphicImage url="/img/add_user.png" width="30" style="vertical-align: middle"/>
+                    <p:spacer width="5"/>
+                    <h:outputText value="Adaugare membru"/>
+                </h:commandLink>
+                <br/><br/>
+                <p:dataTable value="#{memberController.filteredMembers}"
+                             rows="50"
+                             id="table"
+                             paginator="true"
+                             tableStyleClass="ui-table-columntoggle"
+                             paginatorPosition="bottom"
+                             rowIndexVar="ind" var="item">
+                    <f:facet name="header"><h:outputText value="Membri"/></f:facet>
+                    <p:column headerText="Nr" priority="1" style="width:20px;">
+                        <h:outputText value="#{ind+1}"/>
+                    </p:column>
+                    <p:column headerText="Nume" priority="1" sortBy="#{item.name}"
+                              filterBy="#{item.name}" filterMatchMode="contains">
+                        <h:outputText value="#{item.name}"/>
+                        <br/>
+                        <h:outputText value="#{item.memberType.name}"  style="font-size: 10px;color:#666;"/>
+                    </p:column>
+                    <p:column headerText="Edit" priority="1" style="width:50px;">
+                        <a href="edit.xhtml?id=${item.id}">Edit</a>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </pm:content>
+    </ui:define>
+</ui:composition>

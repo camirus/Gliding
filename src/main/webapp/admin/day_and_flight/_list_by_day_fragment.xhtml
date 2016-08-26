@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+    <p:panel styleClass="noBorderPanel" style="width: 98%;margin-left: auto;margin-right: auto;">
+        <p:messages id="mess"/>
+        <h:form>
+            <br/>
+            <h2 style='font-family: "Ubuntu","Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 35px;margin-bottom: 30px' >
+                Jurnal zboruri
+            </h2>
+            <h:panelGrid columns="5" style="float:left">
+                <h:panelGroup>
+                    <h:outputText value="Data zbor" style="font-weight: bold"/>
+                    &nbsp;&nbsp;
+                </h:panelGroup>
+                <p:commandLink value="&lt;&lt;" oncomplete="PF('dataTableWidgetVar').clearFilters()"
+                               action="#{newDayAndFlightController.decrementDate()}" 
+                               ajax="true" update="table, date"/>
+                <p:calendar id="date" value="#{newDayAndFlightController.selectedDate}" 
+                            title="Data zbor"
+                            pattern="dd/MM/yyyy" required="true">
+                    <p:ajax event="dateSelect" listener="#{newDayAndFlightController.onDateSelect}" 
+                            oncomplete="PF('dataTableWidgetVar').clearFilters()" update="table" />
+                </p:calendar>
+                <p:commandLink value="&gt;&gt;" action="#{newDayAndFlightController.incrementDate}" 
+                               ajax="true" update="table, date"
+                               oncomplete="PF('dataTableWidgetVar').clearFilters()"/>
+                <h:panelGroup>
+                    &nbsp;&nbsp;
+                    <p:commandLink value="Toate zborurile" style="font-size: 15px;"
+                                   action="/admin/flight/list?faces-redirect=true"/>
+                </h:panelGroup>
+
+            </h:panelGrid>
+            <br/><br/><br/>
+            <p:spacer height="10"/>
+            <div class="clear" style="clear:both"></div>
+
+            <p:dataTable value="#{newDayAndFlightController.flights}"
+                         id="table"
+                         style="width: 100%;margin-bottom: 50px"
+                         paginator="false"
+                         widgetVar="dataTableWidgetVar"
+                         rowIndexVar="ind" var="item">
+                <p:column width="30">
+                    <f:facet name="header">
+                        <h:outputText value="Nr"/>
+                    </f:facet>
+                    <h:outputText value="#{ind+1}"/>
+                </p:column>
+                <p:column headerText="Data" width="80"
+                          style="font-weight: bold;text-align: center;">
+                    <h:outputText value="#{item.flightDateStr}"/>
+                </p:column>
+                <p:column headerText="Decolare" width="50"
+                          sortBy="#{item.startHourAndMinute}"
+                          style="text-align: center;">
+                    <h:outputText value="#{item.startHourAndMinute}" />
+                </p:column>
+                <p:column headerText="Aterizare" width="50"
+                          sortBy="#{item.endHourAndMinute}"
+                          style="text-align: center;">
+                    <h:outputText value="#{item.endHourAndMinute}"  />
+                </p:column>
+                <p:column headerText="Planor" width="70"
+                          sortBy="#{item.glider.registrationNumber}"
+                          style="text-align: center;">
+                    <h:outputText value="#{item.glider.registrationNumber}" />
+                </p:column>
+                <p:column headerText="Pilot" 
+                          sortBy="#{item.memberByPilotId.name}"
+                          style="">
+                    <a href="#{facesContext.externalContext.requestContextPath}/faces/admin/member/view.xhtml?id=${item.memberByPilotId.id}">
+                        <h:outputText value="#{item.memberByPilotId.name}" style="color: #34759F"/>
+                    </a>
+                </p:column>
+                <p:column headerText="Copilot" 
+                          sortBy="#{item.memberByCopilotId.name}"
+                          style="">
+                    <a href="#{facesContext.externalContext.requestContextPath}/faces/admin/member/view.xhtml?id=${item.memberByCopilotId.id}">
+                        <h:outputText value="#{item.memberByCopilotId.name}" style="color: #34759F"/>
+                    </a>
+                </p:column>
+                <p:column headerText="Remorcaj" 
+                          sortBy="#{item.takeOffMethod}"
+                          style="text-align: center;"
+                          >
+                    <h:outputText value="#{item.takeOffMethod}"  style="color:#666"/>
+                </p:column>
+                <p:column headerText="Durata" width="50"
+                          sortBy="#{item.durationInHoursAndMinutes}"
+                          style="font-weight: bold;text-align: center;">
+                    <h:outputText value="#{item.durationInHoursAndMinutes}"/>
+                </p:column>
+                <p:column headerText="Dist" width="50"
+                          sortBy="#{item.distance}"
+                          style="font-weight: bold;text-align: center;">
+                    <h:outputText value="#{item.distance}"/>
+                </p:column>
+                <p:column headerText="OLC" width="30">
+                    <p:panelGrid rendered="#{!empty item.olcLink}">
+                        <a target="_blank" href="${item.olcLink}">OLC</a>
+                    </p:panelGrid>
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
+
+    </p:panel>
+
+</html>
+

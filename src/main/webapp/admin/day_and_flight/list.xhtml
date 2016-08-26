@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Lista zboruri/zile</title>
+    </h:head>
+    <ui:composition template="../../template/common/commonLayout.xhtml">
+        <ui:define name="content">
+            <p:panel styleClass="noBorderPanel" style="width: 90%;margin-left: auto;margin-right: auto;">
+                <p:messages id="mess"/>
+                <h:form>
+                    <br/>
+                    <p:spacer height="10"/>
+
+                    <p:dataList value="#{dayAndFlightController.dayAndFlightList}"
+                                style="width: 100%"
+                                rows="1"
+                                paginator="true"
+                                rowIndexVar="ind" var="df" type="definition">
+
+                        <br/>
+                        <h1 class="day" style="padding-left: 20px"><h:outputText value="#{df.day}"/></h1>
+                        <br/>
+                        <p:dataTable value="#{df.flights}"
+                                     id="dfTable"
+                                     styleClass="table_day"
+                                     style="width: 100%"
+                                     paginator="false"
+                                     rowIndexVar="ind" var="item">
+                            <p:column headerText="Data" width="100"
+                                      style="font-weight: bold;text-align: center;">
+                                <h:outputText value="#{item.flightDate}"/>
+                            </p:column>
+                            <p:column headerText="Decolare" width="50"
+                                      sortBy="#{item.startHourAndMinute}"
+                                      style="text-align: center;">
+                                <h:outputText value="#{item.startHourAndMinute}" />
+                            </p:column>
+                            <p:column headerText="Aterizare" width="50"
+                                      sortBy="#{item.endHourAndMinute}"
+                                      style="text-align: center;">
+                                <h:outputText value="#{item.endHourAndMinute}"  />
+                            </p:column>
+                            <p:column headerText="Planor" width="70"
+                                      sortBy="#{item.glider.registrationNumber}"
+                                      style="text-align: center;">
+                                <h:outputText value="#{item.glider.registrationNumber}" />
+                            </p:column>
+                            <p:column headerText="Pilot" 
+                                      sortBy="#{item.memberByPilotId.name}"
+                                      style="">
+                                <h:outputText value="#{item.memberByPilotId.name}" style="color: #34759F"/>
+                            </p:column>
+                            <p:column headerText="Copilot" 
+                                      sortBy="#{item.memberByCopilotId.name}"
+                                      style="">
+                                <h:outputText value="#{item.memberByCopilotId.name} " style="color: #34759F"/>
+                            </p:column>
+                            <p:column headerText="Remorcaj" 
+                                      sortBy="#{item.takeOffMethod}"
+                                      style="text-align: center;"
+                                      >
+                                <h:outputText value="#{item.takeOffMethod}"  style="color:#666"/>
+                            </p:column>
+                            <p:column headerText="Durata (ore)" 
+                                      style="font-weight: bold;text-align: center;">
+                                <h:outputText value="#{item.durationInHours}"/>
+                            </p:column>
+                            <p:column headerText="Durata (m)" width="70"
+                                      style="font-weight: bold;text-align: center;">
+                                <h:outputText value="#{item.extraDurationInMinutes}"/>
+                            </p:column>
+                           
+                        </p:dataTable>
+                        <br/><br/>
+                    </p:dataList>
+                </h:form>
+
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+
+
+</html>
+

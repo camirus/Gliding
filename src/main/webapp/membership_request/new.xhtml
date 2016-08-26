@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Zbor nou</title>
+    </h:head>
+    <ui:composition template="../template/request/commonLayout.xhtml">
+        <ui:define name="content">
+            <p:panel styleClass="noBorderPanel">
+                <div id="container" style="width: 820px;" >
+                    <h:form id="form">
+                        <div style="width: 800px;margin-left: auto;margin-right: auto;">
+                            <p:messages id="mess"/>
+                            <p:panel style="width: 800px;padding: 5px;background-color: #fcfcfc" id="mainPanel">
+                                <f:facet name="header">
+                                    <h:outputText value="CERERE DE INSCRIERE/LEGITIMARE"/><br/>
+                                    <h:outputText value="IN ASOCIATIA CLUB SPORTIV GLIDING TRANSYLVANIA"/>
+                                </f:facet>
+                                <div style="line-height: 2.5">
+                                    <b>SUBSEMNATUL:</b><br/>	
+
+                                    Nume <p:inputText size="25" value="#{membershipRequestController.membershipRequest.lastName}" 
+                                                      required="true" id="nume"/> <br/>
+                                    Prenume <p:inputText size="30" value="#{membershipRequestController.membershipRequest.firstName}"
+                                                         required="true" id="prenume"/><br/>
+                                    Cetăţenie <p:inputText size="20" value="#{membershipRequestController.membershipRequest.citizenship}"
+                                                           required="true" id="cetatenie"/><br/>
+                                    <b>Act de identitate </b><br/>
+                                    serie <p:inputText size="10" value="#{membershipRequestController.membershipRequest.icSerie}"/> 
+                                    număr <p:inputText size="10" value="#{membershipRequestController.membershipRequest.icNumber}"/> <br/>
+                                    CNP <p:inputText size="20" value="#{membershipRequestController.membershipRequest.cnp}"/><br/>
+                                    <b>Paşaport (daca este cazul)</b> <br/>
+                                    Număr <p:inputText size="20" value="#{membershipRequestController.membershipRequest.pasportNumber}"/><br/>
+                                    <b>ADRESA:</b> 
+                                    localitatea  <p:inputText size="20" value="#{membershipRequestController.membershipRequest.addressCity}"
+                                                              required="true" id="localitatea"/> 
+                                    strada <p:inputText size="20" value="#{membershipRequestController.membershipRequest.addressStreet}"
+                                                        required="true" id="strada"/>
+                                    numar <p:inputText size="5" value="#{membershipRequestController.membershipRequest.addressNumber}"/><br/>
+                                    bl. <p:inputText size="5" value="#{membershipRequestController.membershipRequest.addressFlat}"/> 
+                                    sc. <p:inputText size="5" value="#{membershipRequestController.membershipRequest.addressSc}"/> 
+                                    et. <p:inputText size="5" value="#{membershipRequestController.membershipRequest.addressFloor}"/> 
+                                    ap. <p:inputText size="5" value="#{membershipRequestController.membershipRequest.addressApartment}"/>  
+                                    cod <p:inputText size="5" value="#{membershipRequestController.membershipRequest.addressCode}"/>  
+                                    judeţ <p:inputText size="5" value="#{membershipRequestController.membershipRequest.addressCounty}"/> <br/>
+                                    ţara <p:inputText size="20" value="#{membershipRequestController.membershipRequest.addressCountry}"
+                                                      required="true" id="tara"/>
+                                    telefon <p:inputText size="15" value="#{membershipRequestController.membershipRequest.telephone}"
+                                                         required="true" id="telefon"/> 
+                                    e-mail <p:inputText size="25" value="#{membershipRequestController.membershipRequest.email}"
+                                                        required="true" id="email"/><br/>
+                                    <b>DATA NAŞTERII:</b> 
+                                    ziua <p:inputText size="5" value="#{membershipRequestController.membershipRequest.birthDateDay}"
+                                                      placeholder="zz" required="true" id="zinastere"/>
+                                    luna <p:inputText size="5" value="#{membershipRequestController.membershipRequest.birthDateMonth}"
+                                                      placeholder="ll"  required="true" id="lunanastere"/> 
+                                    an <p:inputText size="5" value="#{membershipRequestController.membershipRequest.birthDateYear}"
+                                                    placeholder="aaaa"  required="true" id="annastere"/><br/>
+                                    in localitatea <p:inputText size="20" value="#{membershipRequestController.membershipRequest.birthPlaceCity}"/> 
+                                    judeţ <p:inputText size="5" value="#{membershipRequestController.membershipRequest.birthPlaceCounty}"/> 
+                                    ţara <p:inputText size="20" value="#{membershipRequestController.membershipRequest.birthPlaceCountry}"/> <br/>
+                                    <br/>
+                                    <h:outputLabel value="Adauga imagine profil (optional). Imaginea va fi scalata la dimensiunea 240X320 px"/><br/>
+                                    <h:panelGrid columns="2" id="grid">
+                                          <p:panel rendered="#{empty membershipRequestController.membershipRequest.photoString}"> 
+                                              <p:graphicImage url="no_picture.png" width="80"/>
+                                        </p:panel>
+                                        <p:panel rendered="#{!empty membershipRequestController.membershipRequest.photoString}"> 
+                                            <img  src="data:image/jpg;base64, ${membershipRequestController.membershipRequest.photoString}"
+                                                  width="80"/>
+                                        </p:panel>
+                                        <p:fileUpload fileUploadListener="#{membershipRequestController.upload}" 
+                                                      style="width: 600px;"
+                                                      multiple="false"
+                                                      label="Selecteaza" cancelLabel="Anuleaza"
+                                                      update="grid"
+                                                      allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+
+                                    </h:panelGrid>
+                                    <br/>
+                                    <b>Doresc sa devin</b><br/>
+                                    <p:selectOneRadio id="membrusimp" value="#{membershipRequestController.membershipType}"
+                                                      style="line-height: 1" layout="grid" columns="1">
+                                        <f:selectItem itemLabel="membru simpatizant" itemValue="mf" />
+                                        <f:selectItem itemLabel="membru simpatizant pentru o lună (membru temporar)" itemValue="mt" />
+                                    </p:selectOneRadio>
+                                    al asociaţiei CLUB SPORTIV GLIDING TRANSYLVANIA
+                                    <br/><br/>
+                                    <a href="http://www.glidingtransylvania.ro/wp-content/uploads/2016/05/statut.pdf" target="_blank">Statutul Asociatiei Gliding Transylvania</a><br/>
+                                    <a href="http://www.glidingtransylvania.ro/wp-content/uploads/2016/03/Plan-tarifar-Gliding-Transylvania.pdf" target="_blank">Planul Tarifar al Asociatiei Gliding Transylvania</a>
+                                    <br/><br/>
+
+                                    <p:selectBooleanCheckbox value="#{membershipRequestController.accept}" 
+                                                             required="true"></p:selectBooleanCheckbox> <b>Sunt de acord să ader la statutul clubului,
+                                        pentru a deveni membru simpatizant / membru simpatizant pentru o lună. 
+                                        Am luat la cunoştinţă conţinutul statutului cât și al planului tarifar şi mă angajez la plata cotizaţiei. 
+                                        Cunosc faptul că, neplata cotizaţiei duce la pierderea calităţii de membru.
+                                        Mă angajez să respect prevederile statutului şi valorile morale ale asociaţiei; 
+                                        să particip activ la activităţile organizate; să fac tot ce-mi stă în putere pentru 
+                                        realizarea scopurilor şi obiectivelor asociaţiei.</b><br/>
+
+
+                                    <br/>
+                                    <p:panel>
+                                        <h1 style="font-size: 18px">Anexa 1 – Fişa date personale membru</h1>
+                                        <h2 style="font-size: 14px">(se completează doar de deținatorii unei licente de pilot planor)</h2>
+                                        <br/>
+                                        <b><div style="line-height: 1"><p:selectBooleanCheckbox value="#{membershipRequestController.membershipRequest.BLicense}" 
+                                                                                                itemLabel="Detin licenta de pilot planor" /></div></b>
+                                        <br/>
+                                        <b>Număr licență</b>&nbsp; <p:inputText size="5" value="#{membershipRequestController.membershipRequest.licenseNumber}"/>
+                                        <br/>
+                                        <b>Metode de lansare</b><br/>
+                                        <div style="line-height: 1">
+                                            <p:selectBooleanCheckbox value="#{membershipRequestController.membershipRequest.BTowingWinch}" 
+                                                                     itemLabel="remorcaj automosor"/> &nbsp;	
+                                            <p:selectBooleanCheckbox value="#{membershipRequestController.membershipRequest.BTowingPlane}" 
+                                                                     itemLabel="remorcaj avion"/>&nbsp;	
+                                            <p:selectBooleanCheckbox value="#{membershipRequestController.membershipRequest.BTowingSelf}" 
+                                                                     itemLabel="autolansare"/>
+                                        </div>
+                                        <b>Autorizări speciale</b><br/>
+                                        <div style="line-height: 1">
+                                            <p:selectBooleanCheckbox value="#{membershipRequestController.membershipRequest.BAcrobaticFlight}" 
+                                                                     itemLabel="zbor acrobatic"/>&nbsp;	
+                                            <p:selectBooleanCheckbox value="#{membershipRequestController.membershipRequest.BInCloudsFlight}" 
+                                                                     itemLabel="zbor în nori"/>&nbsp;
+                                            <p:selectBooleanCheckbox value="#{membershipRequestController.membershipRequest.BNightFlight}" 
+                                                                     itemLabel="zbor de noapte"/>&nbsp;
+                                            <p:selectBooleanCheckbox value="#{membershipRequestController.membershipRequest.BControlFlight}" 
+                                                                     itemLabel="recepție și control"/>
+                                        </div>
+                                        <b>Calificări de clasa</b><br/>
+                                        <div style="line-height: 1">
+                                            <p:selectBooleanCheckbox value="#{membershipRequestController.membershipRequest.BGliderLicense}" 
+                                                                     itemLabel="planor"/>&nbsp;
+                                            <p:selectBooleanCheckbox value="#{membershipRequestController.membershipRequest.BMotorgliderLicense}" 
+                                                                     itemLabel="planor motorizat"/>
+                                        </div>
+                                        <b>Calificări speciale</b><br/>
+                                        <div style="line-height: 1">
+                                            <p:selectBooleanCheckbox value="#{membershipRequestController.membershipRequest.BInstructor}" 
+                                                                     itemLabel="pilot instructor"/>&nbsp;	
+                                            <p:selectBooleanCheckbox value="#{membershipRequestController.membershipRequest.BTestPilot}" 
+                                                                     itemLabel="pilot incercare"/>
+                                        </div>
+                                        <b>Experiență de zbor planor</b><br/>
+                                        Total ore 
+                                        <p:inputText size="5" value="#{membershipRequestController.membershipRequest.experienceNrHours}"/> 
+                                        starturi 
+                                        <p:inputText size="5" value="#{membershipRequestController.membershipRequest.experienceNrTakeoffs}"/> 
+                                        Total km 
+                                        <p:inputText size="5" value="#{membershipRequestController.membershipRequest.experienceNrKm}"/> 
+                                        <br/><br/>
+
+                                    </p:panel>
+                                    <br/>
+                                    <p:panel style="background-color: #C3802B; ">
+                                        <span style="color:white !important">
+                                            Prin actionarea butonului Trimite sunteti de acord cu trimiterea cererii online. In urma apasarii acestui buton,
+                                            se va deschide un fisier PDF reprezentand cererea completata cu datele introduse. Salvati si listati cererea PDF. 
+                                            Trimiteti cererea semnata si scanata pe adresa de email <b>glidingtransylvania@gmail.com</b>, impreuna cu copii dupa 
+                                            actele necesare inscrierii. Aduceti cererea semnata in prima zi de participare la zbor. Va multumim!
+                                        </span>
+                                    </p:panel>
+
+
+                                    <p:commandButton  value="Trimite" ajax="false" 
+                                                      action="#{membershipRequestController.insert()}"
+                                                      style="width: 150px;margin-top: 50px;margin-bottom: 30px">
+                                        <f:setPropertyActionListener target="#{flightController.username}"
+                                                                     value="#{userManagerBean.username}"/>
+                                    </p:commandButton>
+                                </div>
+                            </p:panel>
+                        </div>
+                    </h:form>
+                </div>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+
+
+</html>
+
